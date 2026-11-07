@@ -1,0 +1,13 @@
+# OS & Editor
+.DS_Store
+Thumbs.db
+*.swp
+*.bak
+.vscode/
+.idea/
+
+# Local logs & test artifacts
+*.log
+scratch/
+test_*.py
+run_*.py
