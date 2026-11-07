@@ -777,11 +777,11 @@ h1, h2, h3, h4 {
   transform-style: preserve-3d;
   transition: transform 0.5s var(--ease-standard), opacity 0.3s ease, filter 0.3s ease;
   will-change: transform, opacity;
-  pointer-events: none;
+  pointer-events: auto;
+  cursor: pointer;
 }
 
 .carousel-card-3d[aria-hidden="false"] {
-  pointer-events: auto;
   z-index: 10;
 }
 
@@ -1062,8 +1062,15 @@ h1, h2, h3, h4 {
   display: none;
 }
 
-.form-input.is-invalid + .form-error-msg {
+.form-input.is-invalid + .form-error-msg,
+.input-with-action.is-invalid + .form-error-msg,
+.form-group.is-invalid > .form-error-msg {
   display: block;
+}
+
+.input-with-action.is-invalid .form-input {
+  border-color: #dc2626;
+  background: #fffafa;
 }
 
 /* Wizard Indicators */
@@ -1103,7 +1110,6 @@ h1, h2, h3, h4 {
   .carousel-3d-wheel,
   .carousel-card-3d,
   .carousel-card-inner {
-    transform: none !important;
     transition: none !important;
   }
 }

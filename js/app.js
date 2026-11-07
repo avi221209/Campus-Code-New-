@@ -29,6 +29,14 @@ document.addEventListener("DOMContentLoaded", () => {
   initEventsFilterAndSearch();
   initProfilePopover();
   initAuthForms();
+
+  const navLinks = document.querySelectorAll(".site-header .nav-link");
+  navLinks.forEach(link => {
+    link.addEventListener("click", () => {
+      navLinks.forEach(l => l.classList.remove("active"));
+      link.classList.add("active");
+    });
+  });
 });
 
 /* ==========================================================================
@@ -58,6 +66,7 @@ function initFlipClockCountdown() {
 
   const targetTime = new Date(DEADLINE_IST).getTime();
   let prevDays = "", prevHours = "", prevMins = "", prevSecs = "";
+  let timerId = null;
 
   function updateClock() {
     const now = new Date().getTime();
@@ -73,6 +82,7 @@ function initFlipClockCountdown() {
         statusPill.textContent = "Round 2 Concluded";
         statusPill.className = "slash-badge slash-badge-black";
       }
+      if (timerId) clearInterval(timerId);
       return;
     }
 
@@ -88,7 +98,7 @@ function initFlipClockCountdown() {
   }
 
   updateClock();
-  setInterval(updateClock, 1000);
+  timerId = setInterval(updateClock, 1000);
 }
 
 /* ==========================================================================
@@ -124,7 +134,7 @@ function init3DCarousel(reducedMotion) {
         card.style.opacity = "0.32";
         card.style.filter = "blur(1.5px)";
         card.setAttribute("aria-hidden", "true");
-        card.style.pointerEvents = "none";
+        card.style.pointerEvents = "auto";
         card.style.zIndex = "1";
         card.classList.remove("is-flipped");
       }
@@ -144,8 +154,16 @@ function init3DCarousel(reducedMotion) {
   if (nextBtn) nextBtn.addEventListener("click", goNext);
   if (prevBtn) prevBtn.addEventListener("click", goPrev);
 
+  let startX = 0;
+  let isDragging = false;
+  let hasDragged = false;
+
   cards.forEach((card, idx) => {
     card.addEventListener("click", () => {
+      if (hasDragged) {
+        hasDragged = false;
+        return;
+      }
       let diff = (idx - (currentIndex % totalCards) + totalCards) % totalCards;
       if (diff > 1) diff -= totalCards;
 
@@ -177,18 +195,47 @@ function init3DCarousel(reducedMotion) {
     }
   });
 
-  let startX = 0;
-  let isDragging = false;
-
   wheel.addEventListener("mousedown", (e) => {
     isDragging = true;
+    hasDragged = false;
     startX = e.clientX;
+  });
+
+  window.addEventListener("mousemove", (e) => {
+    if (!isDragging) return;
+    if (Math.abs(e.clientX - startX) > 8) {
+      hasDragged = true;
+    }
   });
 
   window.addEventListener("mouseup", (e) => {
     if (!isDragging) return;
     isDragging = false;
     const diffX = e.clientX - startX;
+    if (diffX < -50) goNext();
+    else if (diffX > 50) goPrev();
+  });
+
+  wheel.addEventListener("touchstart", (e) => {
+    if (e.touches && e.touches.length > 0) {
+      isDragging = true;
+      hasDragged = false;
+      startX = e.touches[0].clientX;
+    }
+  }, { passive: true });
+
+  window.addEventListener("touchmove", (e) => {
+    if (!isDragging || !e.touches || !e.touches.length) return;
+    if (Math.abs(e.touches[0].clientX - startX) > 8) {
+      hasDragged = true;
+    }
+  }, { passive: true });
+
+  window.addEventListener("touchend", (e) => {
+    if (!isDragging) return;
+    isDragging = false;
+    if (!e.changedTouches || !e.changedTouches.length) return;
+    const diffX = e.changedTouches[0].clientX - startX;
     if (diffX < -50) goNext();
     else if (diffX > 50) goPrev();
   });
@@ -249,20 +296,18 @@ function initDashboardRouting() {
   });
 
   window.addEventListener("hashchange", () => {
-    const currentHash = window.location.hash.slice(1);
-    if (currentHash) {
-      switchView(currentHash);
-    }
+    const currentHash = window.location.hash.slice(1) || "overview";
+    switchView(currentHash);
   });
 
   const initialHash = window.location.hash.slice(1) || "overview";
   switchView(initialHash);
 
   window.addEventListener("keydown", (e) => {
-    if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
-    if (e.key === "1") switchView("overview");
-    if (e.key === "2") switchView("my-events");
-    if (e.key === "3") switchView("events");
+    if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA" || e.target.tagName === "SELECT") return;
+    if (e.key === "1") { window.location.hash = "#overview"; }
+    if (e.key === "2") { window.location.hash = "#my-events"; }
+    if (e.key === "3") { window.location.hash = "#events"; }
   });
 }
 
@@ -278,9 +323,9 @@ function initEventsFilterAndSearch() {
   if (!exploreCards.length) return;
 
   let currentCategory = "all";
-  let currentQuery = "";
 
   function filterExploreCards() {
+    const query = searchInput ? searchInput.value.trim().toLowerCase() : "";
     let visibleCount = 0;
 
     exploreCards.forEach(card => {
@@ -288,7 +333,7 @@ function initEventsFilterAndSearch() {
       const desc = (card.querySelector(".event-card-desc")?.textContent || "").toLowerCase();
       const category = card.getAttribute("data-category") || "";
 
-      const matchesQuery = !currentQuery || title.includes(currentQuery) || desc.includes(currentQuery);
+      const matchesQuery = !query || title.includes(query) || desc.includes(query);
       const matchesCategory = currentCategory === "all" || category === currentCategory;
 
       if (matchesQuery && matchesCategory) {
@@ -305,10 +350,7 @@ function initEventsFilterAndSearch() {
   }
 
   if (searchInput) {
-    searchInput.addEventListener("input", (e) => {
-      currentQuery = e.target.value.trim().toLowerCase();
-      filterExploreCards();
-    });
+    searchInput.addEventListener("input", filterExploreCards);
   }
 
   categoryChips.forEach(chip => {
@@ -319,7 +361,7 @@ function initEventsFilterAndSearch() {
       });
       chip.classList.add("active");
       chip.className = "category-chip slash-badge slash-badge-black active";
-      currentCategory = chip.getAttribute("data-category");
+      currentCategory = chip.getAttribute("data-category") || "all";
       filterExploreCards();
     });
   });
@@ -438,6 +480,7 @@ function initAuthForms() {
       e.preventDefault();
       const email = document.getElementById("login-email");
       const pass = document.getElementById("login-password");
+      const passWrapper = pass ? pass.closest(".input-with-action") : null;
       let valid = true;
 
       if (!email.value || !email.value.includes("@")) {
@@ -450,9 +493,11 @@ function initAuthForms() {
 
       if (!pass.value || pass.value.length < 6) {
         pass.classList.add("is-invalid");
+        if (passWrapper) passWrapper.classList.add("is-invalid");
         valid = false;
       } else {
         pass.classList.remove("is-invalid");
+        if (passWrapper) passWrapper.classList.remove("is-invalid");
         pass.classList.add("is-valid");
       }
 
@@ -464,6 +509,7 @@ function initAuthForms() {
 
   const regForm = document.getElementById("register-wizard-form");
   if (regForm) {
+    let currentStep = 1;
     const step1 = document.getElementById("wizard-step-1");
     const step2 = document.getElementById("wizard-step-2");
     const step3 = document.getElementById("wizard-step-3");
@@ -479,6 +525,7 @@ function initAuthForms() {
     const back3 = document.getElementById("btn-back-step-3");
 
     function setStep(stepNum) {
+      currentStep = stepNum;
       [step1, step2, step3].forEach((s, idx) => {
         if (s) s.style.display = (idx + 1 === stepNum) ? "block" : "none";
       });
@@ -510,13 +557,21 @@ function initAuthForms() {
       next2.addEventListener("click", () => {
         const emailInput = document.getElementById("reg-email");
         const passInput = document.getElementById("reg-password");
+        const passWrapper = passInput ? passInput.closest(".input-with-action") : null;
         let valid = true;
 
         if (!emailInput.value.includes("@")) { emailInput.classList.add("is-invalid"); valid = false; }
         else { emailInput.classList.remove("is-invalid"); emailInput.classList.add("is-valid"); }
 
-        if (passInput.value.length < 6) { passInput.classList.add("is-invalid"); valid = false; }
-        else { passInput.classList.remove("is-invalid"); passInput.classList.add("is-valid"); }
+        if (passInput.value.length < 6) {
+          passInput.classList.add("is-invalid");
+          if (passWrapper) passWrapper.classList.add("is-invalid");
+          valid = false;
+        } else {
+          passInput.classList.remove("is-invalid");
+          if (passWrapper) passWrapper.classList.remove("is-invalid");
+          passInput.classList.add("is-valid");
+        }
 
         if (valid) setStep(3);
       });
@@ -527,6 +582,16 @@ function initAuthForms() {
 
     regForm.addEventListener("submit", (e) => {
       e.preventDefault();
+
+      if (currentStep === 1) {
+        if (next1) next1.click();
+        return;
+      }
+      if (currentStep === 2) {
+        if (next2) next2.click();
+        return;
+      }
+
       const rulesCheck = document.getElementById("reg-rules-check");
       const ageCheck = document.getElementById("reg-age-check");
 
@@ -539,7 +604,8 @@ function initAuthForms() {
         return;
       }
 
-      step3.style.display = "none";
+      if (step3) step3.style.display = "none";
+      if (track3) track3.className = "wizard-bar-segment completed";
       if (successState) successState.style.display = "block";
 
       setTimeout(() => {
