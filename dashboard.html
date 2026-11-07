@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Workspace — CampusCode ReBuild '26</title>
+  <meta name="description" content="CampusCode ReBuild '26 Round 2 Student Engineering Workspace. Track sprint milestones, monitor deadlines, and explore collegiate challenges.">
+
+  <!-- Favicon & Brand Asset -->
+  <link rel="icon" type="image/png" href="assets/campuscode-logo.png">
+
+  <!-- Typography: Google Fonts Inter & DM Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Core Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body style="padding-bottom: 120px;">
+
+  <!-- Cursor-Following Lime Slash Highlight -->
+  <div id="cursor-slash" aria-hidden="true"></div>
+
+  <!-- Slab-Wipe Transition Blades -->
+  <div id="slab-wipe-overlay" aria-hidden="true">
+    <div class="slab-wipe-blade blade-black"></div>
+    <div class="slab-wipe-blade blade-purple"></div>
+    <div class="slab-wipe-blade blade-lime"></div>
+  </div>
+
+  <!-- Top Workspace Utility Bar -->
+  <header class="site-header">
+    <a href="index.html" class="brand-wrapper" title="CampusCode Arena Home">
+      <img src="assets/campuscode-logo.png" alt="CampusCode Mark" class="brand-logo-img">
+      <div class="brand-info">
+        <span class="brand-name">CAMPUSCODE</span>
+        <span class="brand-tagline-pill">
+          STUDENT WORKSPACE
+          <span class="tagline-pulse-dot" aria-hidden="true"></span>
+        </span>
+      </div>
+    </a>
+
+    <div style="display: flex; align-items: center; gap: 10px;" class="mono">
+      <span style="color: var(--text-muted); font-size: 0.8rem;">ROUTE:</span>
+      <span class="slash-badge slash-badge-black" id="active-crumb-label" style="font-size: 0.75rem;">
+        OVERVIEW TRACK
+      </span>
+    </div>
+
+    <div class="header-actions">
+      <!-- Quick Profile Button -->
+      <button type="button" class="btn btn-secondary btn-sm" id="topbar-avatar-btn" onclick="document.getElementById('dock-profile-trigger').click();" aria-label="Open Student Profile">
+        <div class="student-avatar-initials" style="font-weight: 800; color: var(--purple);">A</div>
+        <span class="display-student-name">Avi</span>
+        <span style="color: var(--text-muted);">//</span>
+        <span class="display-team-name" style="color: var(--black); font-weight: 700;">Team Stark</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Thin Telemetry Strip (Replaces Bulky Widgets with High-Density Data) -->
+  <aside class="telemetry-strip" aria-label="Live Telemetry Bar">
+    <div class="telemetry-item">
+      <span>NODE:</span> <strong>CHENNAI-01</strong>
+    </div>
+    <span class="telemetry-slash-divider">//</span>
+    <div class="telemetry-item">
+      <span>SQUAD:</span> <strong class="display-team-name">Team Stark</strong>
+    </div>
+    <span class="telemetry-slash-divider">//</span>
+    <div class="telemetry-item">
+      <span>LEAD:</span> <strong class="display-student-name">Avi</strong>
+    </div>
+    <span class="telemetry-slash-divider">//</span>
+    <div class="telemetry-item">
+      <span>RANK:</span> <strong>#04 NATIONAL</strong>
+    </div>
+    <span class="telemetry-slash-divider">//</span>
+    <div class="telemetry-item">
+      <span>VELOCITY:</span> <strong>94.2%</strong>
+    </div>
+    <span class="telemetry-slash-divider">//</span>
+    <div class="telemetry-item">
+      <span>MERIT:</span> <strong style="color: var(--purple);">2,450 XP</strong>
+    </div>
+    <span class="telemetry-slash-divider">//</span>
+    <div class="telemetry-item">
+      <span>DEADLINE:</span> <strong style="color: var(--lime);">20:31:00 IST</strong>
+    </div>
+    <span class="telemetry-slash-divider">//</span>
+    <div class="telemetry-item">
+      <span>SYSTEMS:</span> <strong style="color: var(--lime-dark);">OPERATIONAL</strong>
+    </div>
+  </aside>
+
+  <!-- ====================================================================
+       Dashboard Main Viewport (Contains 3 Hash Routed Views)
+       ==================================================================== -->
+  <main>
+
+    <!-- ==================================================================
+         VIEW 1: OVERVIEW TRACK (#overview)
+         ================================================================== -->
+    <div class="dashboard-view-panel active" id="view-overview" aria-label="Student Workspace Overview">
+      
+      <!-- BAND 1 (LIGHT): Greeting & Mission Briefing -->
+      <section class="band-light overview-hero-light">
+        <div class="band-container" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 20px;">
+          <div>
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+              <span class="slash-badge slash-badge-lime">ARENA POSITION</span>
+              <span class="mono" style="font-size: 0.76rem; color: var(--purple); font-weight: 700;">
+                LIVE EVALUATION SPRINT
+              </span>
+            </div>
+            <h1 style="font-size: clamp(2.4rem, 4vw, 3.8rem); letter-spacing: -0.04em;" id="student-greeting-text">
+              Welcome back, Avi
+            </h1>
+            <p style="font-size: 1.05rem; color: var(--text-secondary); max-width: 620px;">
+              Leading <strong>Team Stark</strong> through the ReBuild '26 technical crucible. The horizontal progression track below dictates your current evaluation standing.
+            </p>
+          </div>
+
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <a href="#my-events" class="btn btn-secondary">
+              <span>EXPLORE 3D CAROUSEL</span>
+              <span class="mono" aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- BAND 2 (DEEP INK BLACK): The Horizontal 3-Round Hero Track Centerpiece -->
+      <section class="overview-track-band">
+        <div class="band-container">
+          <div class="round-track-hero" style="background: #141414; border: 2px solid #282828; color: #ffffff;">
+            
+            <div class="track-header-row">
+              <div>
+                <span class="slash-badge slash-badge-lime" style="margin-bottom: 8px;">REBUILD '26 PROGRESSION TRACK</span>
+                <h2 style="font-size: 1.8rem; color: #ffffff; letter-spacing: -0.03em;">
+                  National Multi-Round Execution Matrix
+                </h2>
+              </div>
+              <div class="mono" style="font-size: 0.78rem; color: #a8a8a2;">
+                TRACK: <strong style="color: var(--lime);">FRONTEND &amp; 3D UI ARCHITECTURE</strong>
+              </div>
+            </div>
+
+            <!-- The Monumental 3-Round Horizontal Object -->
+            <div class="track-stages-container">
+              
+              <!-- STAGE 1: ROUND 1 RECREATE (Passed) -->
+              <div class="track-stage-block stage-passed" style="background: #1c1c1c; border-color: #333333; color: #ffffff;">
+                <div>
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <span class="slash-badge slash-badge-black">ROUND 01</span>
+                    <span class="mono" style="color: #888; font-size: 0.7rem; font-weight: 700;">CONCLUDED</span>
+                  </div>
+                  <div class="display-numeral-giant numeral-stroke" style="font-size: 3.8rem; margin-bottom: 6px;">01</div>
+                  <h3 class="stage-title" style="color: #ffffff;">Recreate</h3>
+                  <p style="font-size: 0.85rem; color: #9c9c94; line-height: 1.5;">
+                    Friday 6 November. Structural blueprint, specification breakdown, and information architecture mapping.
+                  </p>
+                </div>
+                <div style="border-top: 1px dashed #333; padding-top: 12px; margin-top: 16px;" class="stage-meta">
+                  <span style="color: #888;">VERIFIED SCORE:</span>
+                  <strong style="color: var(--lime);"> 100% PASS</strong>
+                </div>
+              </div>
+
+              <!-- STAGE 2: ROUND 2 REBUILD (CURRENT POSITION & CENTERPIECE) -->
+              <div class="track-stage-block stage-active-centerpiece">
+                <div>
+                  <div class="stage-active-badge-row">
+                    <span class="slash-badge slash-badge-lime" id="flip-clock-status">ROUND 02 // CURRENT POSITION</span>
+                    <span class="mono" style="color: var(--lime); font-size: 0.72rem; font-weight: 700;">● CODE FREEZE PENDING</span>
+                  </div>
+
+                  <div style="display: flex; align-items: baseline; gap: 14px;">
+                    <div class="display-numeral-giant numeral-lime" style="font-size: 4.6rem;">02</div>
+                    <div>
+                      <h3 class="stage-title" style="font-size: 1.8rem; color: #ffffff; margin-bottom: 2px;">Rebuild</h3>
+                      <p style="font-size: 0.86rem; color: #a8a8a2;">
+                        Saturday 7 November (ends 8:31 PM IST). Full-stack workspace sprint: interactive challenge directories, live countdowns, and verified submissions.
+                      </p>
+                    </div>
+                  </div>
+
+                  <!-- 3D FLIP CLOCK CENTERPIECE -->
+                  <div class="flip-clock-centerpiece" aria-live="polite">
+                    <div class="flip-unit-box">
+                      <div class="flip-plate-slanted">
+                        <span class="flip-digits-lime" id="flip-val-days">00</span>
+                      </div>
+                      <span class="flip-label-small">DAYS</span>
+                    </div>
+                    <span class="flip-colon-sep">:</span>
+                    <div class="flip-unit-box">
+                      <div class="flip-plate-slanted">
+                        <span class="flip-digits-lime" id="flip-val-hours">11</span>
+                      </div>
+                      <span class="flip-label-small">HOURS</span>
+                    </div>
+                    <span class="flip-colon-sep">:</span>
+                    <div class="flip-unit-box">
+                      <div class="flip-plate-slanted">
+                        <span class="flip-digits-lime" id="flip-val-mins">54</span>
+                      </div>
+                      <span class="flip-label-small">MINS</span>
+                    </div>
+                    <span class="flip-colon-sep">:</span>
+                    <div class="flip-unit-box">
+                      <div class="flip-plate-slanted">
+                        <span class="flip-digits-lime" id="flip-val-secs">20</span>
+                      </div>
+                      <span class="flip-label-small">SECS</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div style="border-top: 1px solid #333; padding-top: 16px; margin-top: 14px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+                  <div class="mono" style="font-size: 0.75rem; color: #9c9c94;">
+                    DEADLINE: <strong style="color: #ffffff;">20:31:00 IST (+05:30)</strong>
+                  </div>
+                  <!-- The ONE Lime Primary Action for Dashboard Overview -->
+                  <a href="#my-events" class="btn btn-lime btn-sm">
+                    <span>SUBMIT ROUND 2 BUILD</span>
+                    <span class="mono" aria-hidden="true">→</span>
+                  </a>
+                </div>
+              </div>
+
+              <!-- STAGE 3: ROUND 3 INTERVIEW & DEFENSE (Upcoming) -->
+              <div class="track-stage-block stage-upcoming" style="background: #1c1c1c; border-color: #333333; color: #ffffff;">
+                <div>
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <span class="slash-badge slash-badge-purple">ROUND 03</span>
+                    <span class="mono" style="color: var(--purple); font-size: 0.7rem; font-weight: 700;">UPCOMING</span>
+                  </div>
+                  <div class="display-numeral-giant numeral-purple" style="font-size: 3.8rem; margin-bottom: 6px;">03</div>
+                  <h3 class="stage-title" style="color: #ffffff;">Interview &amp; Review</h3>
+                  <p style="font-size: 0.85rem; color: #9c9c94; line-height: 1.5;">
+                    9 to 11 November. Technical interviews and code reviews with the evaluation panel for national standing.
+                  </p>
+                </div>
+                <div style="border-top: 1px dashed #333; padding-top: 12px; margin-top: 16px;" class="stage-meta">
+                  <span style="color: #888;">QUALIFICATION:</span>
+                  <strong style="color: var(--purple);"> TEAM STARK ROSTER</strong>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- BAND 3 (LIGHT): Quick Actions & Directory Link -->
+      <section class="band-light" style="padding-top: 60px;">
+        <div class="band-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 28px;">
+          
+          <article style="background: var(--white); border: 2px solid var(--black); box-shadow: var(--shadow-hard); clip-path: var(--slash-clip-card); padding: 32px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <span class="slash-badge slash-badge-purple" style="margin-bottom: 12px;">ACTIVE REPOSITORY</span>
+              <h3 style="font-size: 1.45rem; margin-bottom: 6px;">Team Stark Codebase</h3>
+              <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 16px;">
+                Production branch synchronized with main repository. All test suites passing and deployment builds verified for sprint submission.
+              </p>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed var(--hairline); padding-top: 14px;" class="mono">
+              <span style="font-size: 0.75rem; color: var(--text-muted);">HASH: sha256:d8a9f24</span>
+              <a href="index.html" class="btn btn-secondary btn-sm">Preview Landing →</a>
+            </div>
+          </article>
+
+          <article style="background: var(--white); border: 2px solid var(--black); box-shadow: var(--shadow-hard); clip-path: var(--slash-clip-card); padding: 32px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <span class="slash-badge slash-badge-black" style="margin-bottom: 12px;">MY EVENTS ARENA</span>
+              <h3 style="font-size: 1.45rem; margin-bottom: 6px;">3D Rotating Event Wheel</h3>
+              <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 16px;">
+                Step into the cylindrical 3D carousel to inspect ReBuild '26, FirstCommit '26 Quiz, and CodeTitans India '26.
+              </p>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed var(--hairline); padding-top: 14px;">
+              <span class="mono" style="font-size: 0.75rem; color: var(--text-muted);">CAROUSEL: 3 ACTIVE SLOTS</span>
+              <a href="#my-events" class="btn btn-secondary btn-sm">Open 3D Wheel →</a>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ==================================================================
+         VIEW 2: MY EVENTS ROTATING 3D CAROUSEL (#my-events)
+         ================================================================== -->
+    <div class="dashboard-view-panel" id="view-my-events" aria-label="My Events 3D Carousel" hidden>
+      
+      <!-- BAND (LIGHT): Rotating 3D Cylindrical Carousel -->
+      <section class="band-light" style="padding: 40px 0 60px 0;">
+        <div class="band-container" style="text-align: center;">
+          
+          <div style="display: inline-flex; flex-direction: column; align-items: center; margin-bottom: 24px;">
+            <span class="slash-badge slash-badge-lime" style="margin-bottom: 8px;">3D CYLINDRICAL CAROUSEL</span>
+            <h2 style="font-size: clamp(2.2rem, 4vw, 3.4rem); letter-spacing: -0.04em;">My Events Portfolio</h2>
+            <p style="color: var(--text-secondary); font-size: 0.95rem; max-width: 520px; margin-top: 4px;">
+              Rotate using the on-screen buttons, drag horizontally, or press Left/Right arrow keys. Click the front card to flip for scoring criteria.
+            </p>
+          </div>
+
+          <!-- The Rotating 3D Stage -->
+          <div class="carousel-3d-stage" aria-label="3D Event Carousel">
+            <div class="carousel-3d-wheel" id="carousel-wheel">
+              
+              <!-- CARD 0: ReBuild '26 (Ongoing) -->
+              <div class="carousel-card-3d card-slot-0" data-index="0" tabindex="0" role="button" aria-label="ReBuild '26 Card, Click to Flip">
+                <div class="carousel-card-inner">
+                  
+                  <div class="carousel-card-face carousel-face-front">
+                    <div>
+                      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                        <span class="slash-badge slash-badge-lime">ONGOING · ROUND 2</span>
+                        <span class="mono" style="font-size: 0.75rem; font-weight: 700;">#REBUILD-26</span>
+                      </div>
+                      <h3 style="font-size: 1.55rem; text-align: left; margin-bottom: 8px;">CampusCode ReBuild '26</h3>
+                      <p style="font-size: 0.9rem; text-align: left; color: var(--text-secondary);">
+                        Full-stack event workspace, real-time sync, and interactive developer tooling for the national student engineering arena.
+                      </p>
+                    </div>
+                    <div style="border-top: 2px solid var(--black); padding-top: 14px; display: flex; justify-content: space-between; align-items: center;" class="mono">
+                      <span style="font-size: 0.76rem; color: var(--text-muted);">SQUAD: <strong>Team Stark</strong></span>
+                      <span style="font-size: 0.76rem; color: var(--purple); font-weight: 700;">CLICK TO FLIP ↻</span>
+                    </div>
+                  </div>
+
+                  <div class="carousel-card-face carousel-face-back">
+                    <div>
+                      <div class="slash-badge slash-badge-lime" style="margin-bottom: 12px;">EVALUATION CRITERIA</div>
+                      <h3 style="font-size: 1.3rem; color: #ffffff; text-align: left; margin-bottom: 8px;">Round 2 Deliverables</h3>
+                      <ul style="font-size: 0.85rem; color: #b5b5ad; text-align: left; padding-left: 20px; line-height: 1.6;">
+                        <li>Production deployment active and accessible</li>
+                        <li>Complete event workflows and state handling</li>
+                        <li>Live countdown synchronized to 20:31 IST</li>
+                      </ul>
+                    </div>
+                    <div class="mono" style="font-size: 0.75rem; color: var(--lime); text-align: left;">
+                      STATUS: SUBMISSION READY FOR EVALUATION
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- CARD 1: FirstCommit '26 Quiz (Completed) -->
+              <div class="carousel-card-3d card-slot-1" data-index="1" tabindex="0" role="button" aria-label="FirstCommit '26 Quiz Card, Click to Flip">
+                <div class="carousel-card-inner">
+                  
+                  <div class="carousel-card-face carousel-face-front">
+                    <div>
+                      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                        <span class="slash-badge slash-badge-black">COMPLETED</span>
+                        <span class="mono" style="font-size: 0.75rem; font-weight: 700;">#FIRSTCOMMIT</span>
+                      </div>
+                      <h3 style="font-size: 1.55rem; text-align: left; margin-bottom: 8px;">FirstCommit '26 Quiz</h3>
+                      <p style="font-size: 0.9rem; text-align: left; color: var(--text-secondary);">
+                        Advanced diagnostic examining asynchronous JavaScript, memory safety, and CSS layout algorithms.
+                      </p>
+                    </div>
+                    <div style="border-top: 2px solid var(--black); padding-top: 14px; display: flex; justify-content: space-between; align-items: center;" class="mono">
+                      <span style="font-size: 0.76rem; color: var(--text-muted);">SCORE: <strong style="color: var(--purple);">96/100</strong></span>
+                      <span style="font-size: 0.76rem; color: var(--purple); font-weight: 700;">CLICK TO FLIP ↻</span>
+                    </div>
+                  </div>
+
+                  <div class="carousel-card-face carousel-face-back">
+                    <div>
+                      <div class="slash-badge slash-badge-purple" style="margin-bottom: 12px;">VERIFIED ACHIEVEMENT</div>
+                      <h3 style="font-size: 1.3rem; color: #ffffff; text-align: left; margin-bottom: 8px;">National Honor Roll</h3>
+                      <p style="font-size: 0.85rem; color: #b5b5ad; text-align: left; line-height: 1.6;">
+                        Ranked #12 across all collegiate participants in Region West. Certificate verified on student ledger.
+                      </p>
+                    </div>
+                    <div class="mono" style="font-size: 0.75rem; color: var(--lime); text-align: left;">
+                      LEDGER ID: #FC-26-WEST-9942
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- CARD 2: CodeTitans India '26 (Upcoming) -->
+              <div class="carousel-card-3d card-slot-2" data-index="2" tabindex="0" role="button" aria-label="CodeTitans India '26 Card, Click to Flip">
+                <div class="carousel-card-inner">
+                  
+                  <div class="carousel-card-face carousel-face-front">
+                    <div>
+                      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                        <span class="slash-badge slash-badge-purple">UPCOMING · NOV 18</span>
+                        <span class="mono" style="font-size: 0.75rem; font-weight: 700;">#TITANS-26</span>
+                      </div>
+                      <h3 style="font-size: 1.55rem; text-align: left; margin-bottom: 8px;">CodeTitans India '26</h3>
+                      <p style="font-size: 0.9rem; text-align: left; color: var(--text-secondary);">
+                        36-Hour National Distributed Systems Hackathon focusing on real-time event streaming and fault tolerance.
+                      </p>
+                    </div>
+                    <div style="border-top: 2px solid var(--black); padding-top: 14px; display: flex; justify-content: space-between; align-items: center;" class="mono">
+                      <span style="font-size: 0.76rem; color: var(--text-muted);">SLOT: <strong>Team Stark Confirmed</strong></span>
+                      <span style="font-size: 0.76rem; color: var(--purple); font-weight: 700;">CLICK TO FLIP ↻</span>
+                    </div>
+                  </div>
+
+                  <div class="carousel-card-face carousel-face-back">
+                    <div>
+                      <div class="slash-badge slash-badge-black" style="color: var(--lime); margin-bottom: 12px;">EVENT BRIEF</div>
+                      <h3 style="font-size: 1.3rem; color: #ffffff; text-align: left; margin-bottom: 8px;">Distributed Challenge</h3>
+                      <p style="font-size: 0.85rem; color: #b5b5ad; text-align: left; line-height: 1.6;">
+                        High-throughput data pipelines using gRPC, WebSocket clustering, and raft consensus benchmarks.
+                      </p>
+                    </div>
+                    <div class="mono" style="font-size: 0.75rem; color: var(--lime); text-align: left;">
+                      OPENS IN 11 DAYS · ARENA READY
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Carousel Navigation Controls -->
+          <div class="carousel-nav-controls">
+            <button type="button" class="btn btn-secondary btn-sm" id="carousel-btn-prev" aria-label="Rotate Previous Card">
+              <span>← PREV EVENT</span>
+            </button>
+            <div class="mono" style="font-size: 0.75rem; color: var(--text-muted);">
+              USE [←] [→] KEYS OR DRAG
+            </div>
+            <button type="button" class="btn btn-secondary btn-sm" id="carousel-btn-next" aria-label="Rotate Next Card">
+              <span>NEXT EVENT →</span>
+            </button>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ==================================================================
+         VIEW 3: EXPLORE CHALLENGE ARENA (#events)
+         ================================================================== -->
+    <div class="dashboard-view-panel" id="view-events" aria-label="Explore National Challenges" hidden>
+      
+      <!-- BAND (LIGHT): Search & Category Toolbar -->
+      <section class="band-light" style="padding: 40px 0 20px 0;">
+        <div class="band-container">
+          <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 28px; flex-wrap: wrap; gap: 16px;">
+            <div>
+              <span class="slash-badge slash-badge-lime" style="margin-bottom: 8px;">NATIONAL DIRECTORY</span>
+              <h2 style="font-size: clamp(2.2rem, 4vw, 3.4rem); letter-spacing: -0.04em;">Explore Challenge Arena</h2>
+            </div>
+            <p style="color: var(--text-secondary); max-width: 440px;">
+              Filter challenges by technical domain or search by keywords. Register your squad with 1-click status feedback.
+            </p>
+          </div>
+
+          <!-- Toolbar -->
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap;">
+            <div style="flex: 1; max-width: 420px; position: relative;">
+              <input 
+                type="search" 
+                id="events-search-input" 
+                class="form-input" 
+                placeholder="Search by challenge name or stack..."
+                aria-label="Search Challenges">
+            </div>
+
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;" role="tablist">
+              <button type="button" class="category-chip slash-badge slash-badge-black active" data-category="all">All Arenas</button>
+              <button type="button" class="category-chip slash-badge slash-badge-ghost" data-category="hackathon">Hackathons</button>
+              <button type="button" class="category-chip slash-badge slash-badge-ghost" data-category="quiz">Quizzes</button>
+              <button type="button" class="category-chip slash-badge slash-badge-ghost" data-category="sprint">Speed Sprints</button>
+              <button type="button" class="category-chip slash-badge slash-badge-ghost" data-category="opensource">Open Source</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- BAND (LIGHT): Asymmetric Challenge Catalog -->
+      <section class="band-light" style="padding-top: 10px;">
+        <div class="band-container">
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;" id="explore-events-grid">
+            
+            <!-- Challenge 1 -->
+            <article class="explore-event-card" data-category="hackathon" style="background: var(--white); border: 2px solid var(--black); box-shadow: var(--shadow-hard); clip-path: var(--slash-clip-card); padding: 32px; display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                  <span class="slash-badge slash-badge-lime">FLAGSHIP ARENA</span>
+                  <span class="mono" style="font-size: 0.85rem; font-weight: 700;">₹5,00,000</span>
+                </div>
+                <h3 class="event-card-title" style="font-size: 1.5rem; margin-bottom: 6px;">CampusCode ReBuild '26</h3>
+                <p class="event-card-desc" style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 16px;">
+                  Build a full-featured student developer workspace with live challenge directories, countdown clocks, and profile hubs.
+                </p>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;">
+                  <span class="slash-badge slash-badge-ghost">HTML5/CSS3</span>
+                  <span class="slash-badge slash-badge-ghost">Vanilla JS</span>
+                  <span class="slash-badge slash-badge-ghost">Accessible UI</span>
+                </div>
+              </div>
+              <div style="border-top: 1px dashed var(--hairline); padding-top: 16px; display: flex; justify-content: space-between; align-items: center;">
+                <button type="button" class="btn btn-black btn-sm btn-action-register is-registered">✓ Registered</button>
+                <button type="button" class="btn btn-secondary btn-sm btn-action-remind is-active">✓ Reminder Set</button>
+              </div>
+            </article>
+
+            <!-- Challenge 2 -->
+            <article class="explore-event-card" data-category="hackathon" style="background: var(--white); border: 2px solid var(--black); box-shadow: var(--shadow-hard); clip-path: var(--slash-clip-card); padding: 32px; display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                  <span class="slash-badge slash-badge-purple">SYS CRUCIBLE</span>
+                  <span class="mono" style="font-size: 0.85rem; font-weight: 700;">₹2,50,000</span>
+                </div>
+                <h3 class="event-card-title" style="font-size: 1.5rem; margin-bottom: 6px;">CodeTitans India '26</h3>
+                <p class="event-card-desc" style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 16px;">
+                  High-concurrency distributed backend challenges and fault-tolerant streaming architecture.
+                </p>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;">
+                  <span class="slash-badge slash-badge-ghost">Go</span>
+                  <span class="slash-badge slash-badge-ghost">Rust</span>
+                  <span class="slash-badge slash-badge-ghost">gRPC</span>
+                </div>
+              </div>
+              <div style="border-top: 1px dashed var(--hairline); padding-top: 16px; display: flex; justify-content: space-between; align-items: center;">
+                <button type="button" class="btn btn-black btn-sm btn-action-register is-registered">✓ Registered</button>
+                <button type="button" class="btn btn-secondary btn-sm btn-action-remind">Remind Me</button>
+              </div>
+            </article>
+
+            <!-- Challenge 3 -->
+            <article class="explore-event-card" data-category="sprint" style="background: var(--white); border: 2px solid var(--black); box-shadow: var(--shadow-hard); clip-path: var(--slash-clip-card); padding: 32px; display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                  <span class="slash-badge slash-badge-black">SPEED SPRINT</span>
+                  <span class="mono" style="font-size: 0.85rem; font-weight: 700;">₹75,000</span>
+                </div>
+                <h3 class="event-card-title" style="font-size: 1.5rem; margin-bottom: 6px;">Algorithmic Arena 2026</h3>
+                <p class="event-card-desc" style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 16px;">
+                  Fast-paced graph algorithms, shortest-path optimization, and spatial memory management under time limits.
+                </p>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;">
+                  <span class="slash-badge slash-badge-ghost">C++20</span>
+                  <span class="slash-badge slash-badge-ghost">Algorithms</span>
+                </div>
+              </div>
+              <div style="border-top: 1px dashed var(--hairline); padding-top: 16px; display: flex; justify-content: space-between; align-items: center;">
+                <!-- Primary Action for this card -->
+                <button type="button" class="btn btn-lime btn-sm btn-action-register">Register</button>
+                <button type="button" class="btn btn-secondary btn-sm btn-action-remind">Remind Me</button>
+              </div>
+            </article>
+
+            <!-- Challenge 4 -->
+            <article class="explore-event-card" data-category="opensource" style="background: var(--white); border: 2px solid var(--black); box-shadow: var(--shadow-hard); clip-path: var(--slash-clip-card); padding: 32px; display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                  <span class="slash-badge slash-badge-purple">OPEN SOURCE</span>
+                  <span class="mono" style="font-size: 0.85rem; font-weight: 700;">₹1,20,000</span>
+                </div>
+                <h3 class="event-card-title" style="font-size: 1.5rem; margin-bottom: 6px;">GitShip Dev Crucible</h3>
+                <p class="event-card-desc" style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 16px;">
+                  Contribute production patches and feature RFCs to prominent developer tooling and developer experience SDKs.
+                </p>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;">
+                  <span class="slash-badge slash-badge-ghost">TypeScript</span>
+                  <span class="slash-badge slash-badge-ghost">DevTools</span>
+                </div>
+              </div>
+              <div style="border-top: 1px dashed var(--hairline); padding-top: 16px; display: flex; justify-content: space-between; align-items: center;">
+                <button type="button" class="btn btn-lime btn-sm btn-action-register">Register</button>
+                <button type="button" class="btn btn-secondary btn-sm btn-action-remind">Remind Me</button>
+              </div>
+            </article>
+
+          </div>
+
+          <!-- Empty State -->
+          <div id="events-empty-state" style="display: none; padding: 60px 20px; text-align: center; flex-direction: column; align-items: center; gap: 14px;">
+            <div class="slash-badge slash-badge-black">NO RESULTS FOUND</div>
+            <h3>No challenges matched your query</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Try adjusting your keyword or reset to All Arenas.</p>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('events-search-input').value=''; document.querySelector('.category-chip[data-category=\'all\']').click();">
+              Reset Filters
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+
+  <!-- ====================================================================
+       Floating Bottom Dock: Floats in Front of Content
+       ==================================================================== -->
+  <nav class="floating-bottom-dock" aria-label="Student Workspace Navigation Dock">
+    <button type="button" class="dock-item-btn active" data-route="overview" aria-label="Go to Overview Track" title="Shortcut: Press 1">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      <span>Overview</span>
+    </button>
+
+    <button type="button" class="dock-item-btn" data-route="my-events" aria-label="Go to My Events 3D Carousel" title="Shortcut: Press 2">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+      <span>My Events</span>
+      <span class="dock-badge-pill">3</span>
+    </button>
+
+    <button type="button" class="dock-item-btn" data-route="events" aria-label="Go to Challenge Arena" title="Shortcut: Press 3">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <span>Events</span>
+      <span class="dock-badge-pill" style="background: var(--lime); color: var(--black);">LIVE</span>
+    </button>
+
+    <button type="button" class="dock-item-btn" id="dock-profile-trigger" data-route="profile" aria-label="Open Student Profile Popover" aria-haspopup="dialog">
+      <div class="student-avatar-initials" style="width: 20px; height: 20px; font-size: 0.7rem; font-weight: 800; background: var(--black); color: var(--lime); border-radius: 50%; display: flex; align-items: center; justify-content: center;">A</div>
+      <span>Profile</span>
+    </button>
+  </nav>
+
+  <!-- ====================================================================
+       Profile Popover Modal (Triggered from Floating Bottom Dock)
+       ==================================================================== -->
+  <div class="profile-popover-backdrop" id="profile-backdrop" aria-hidden="true"></div>
+  <div class="profile-popover-modal" id="profile-popover" role="dialog" aria-modal="true" aria-labelledby="profile-title" tabindex="-1">
+    
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+      <span class="slash-badge slash-badge-black">VERIFIED STUDENT ID</span>
+      <button type="button" id="profile-popover-close" class="mono" style="background: transparent; border: none; font-size: 1.1rem; cursor: pointer; color: var(--text-secondary);" aria-label="Close Profile Popover">✕</button>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--hairline);">
+      <div style="width: 48px; height: 48px; background: var(--black); color: var(--lime); border: 2px solid var(--lime); clip-path: var(--slash-clip-card-angled); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 1.3rem; font-weight: 900;">
+        A
+      </div>
+      <div>
+        <h3 id="profile-title" style="font-size: 1.35rem; line-height: 1.1;" class="display-student-name">Avi Stark</h3>
+        <span class="mono" style="font-size: 0.78rem; color: var(--purple); font-weight: 700;" class="display-team-name">Team Stark</span>
+        <div class="mono" style="font-size: 0.72rem; color: var(--text-muted); margin-top: 2px;">IIT BOMBAY · CLASS OF 2026</div>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;">
+      <div style="display: flex; justify-content: space-between;" class="mono">
+        <span style="font-size: 0.74rem; color: var(--text-muted);">TRACK:</span>
+        <span style="font-size: 0.8rem; font-weight: 700;">Frontend &amp; UI Architecture</span>
+      </div>
+      <div style="display: flex; justify-content: space-between;" class="mono">
+        <span style="font-size: 0.74rem; color: var(--text-muted);">ROLL NO:</span>
+        <span style="font-size: 0.8rem; font-weight: 700;">#CC-26-8842</span>
+      </div>
+      <div style="display: flex; justify-content: space-between;" class="mono">
+        <span style="font-size: 0.74rem; color: var(--text-muted);">ROUND 2:</span>
+        <span style="font-size: 0.8rem; color: var(--lime-dark); font-weight: 700;">Verified Active</span>
+      </div>
+    </div>
+
+    <div style="display: flex; gap: 10px;">
+      <a href="index.html" class="btn btn-secondary btn-sm" style="flex: 1;">Sign Out</a>
+      <button type="button" class="btn btn-lime btn-sm" onclick="alert('Student verification key renewed.');" style="flex: 1;">Renew Pass</button>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
