@@ -3,9 +3,6 @@
    Refined with Unslop: Craft, quiet chrome, deliberate typography & real moments.
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Inter:wght@400;500;600;700&display=swap');
-
 :root {
   /* Brand Primitive Hexes (STRICTLY PRESERVED) */
   --canvas: #f7f7f4;
