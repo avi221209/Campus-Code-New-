@@ -4,7 +4,7 @@
  * Core Engineering Workspace Client
  * Features:
  *   - 3D Rotating Cylindrical Carousel (My Events) with Depth Fade & Flip
- *   - 3D Flip-Clock Countdown (Round 2 Cutoff: 07 Nov 2026, 20:31 IST)
+ *   - 3D Flip-Clock Countdown (Round 2 Cutoff: Closes 11:00 AM IST, Sun 8 Nov)
  *   - Horizontal 3-Round Timeline Track (R1 Recreate, R2 Rebuild, R3 Interview)
  *   - Hash Navigation & Floating Pill Bottom Dock
  *   - Real Inline Auth Validation & 3-Step Wizard
@@ -13,7 +13,7 @@
 // Top Configuration Constants
 const STUDENT_NAME = "Avi";
 const TEAM_NAME = "Team Stark";
-const DEADLINE_IST = "2026-11-07T20:31:00+05:30";
+const DEADLINE_IST = "2026-11-08T11:00:00+05:30";
 
 window.STUDENT_NAME = STUDENT_NAME;
 window.TEAM_NAME = TEAM_NAME;
@@ -24,10 +24,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   initStudentContext();
   initFlipClockCountdown();
+  initHeroSlabs3D(prefersReducedMotion);
+  initOverviewHero3D(prefersReducedMotion);
   init3DCarousel(prefersReducedMotion);
   initDashboardRouting();
   initEventsFilterAndSearch();
   initProfilePopover();
+  initActivityCenter();
+  initWorkspaceAndHackMate();
   initAuthForms();
 
   const navLinks = document.querySelectorAll(".site-header .nav-link");
@@ -54,7 +58,7 @@ function initStudentContext() {
 }
 
 /* ==========================================================================
-   2. 3D Flip-Clock Countdown Engine (07 Nov 2026, 20:31:00 IST)
+   2. 3D Flip-Clock Countdown Engine (Closes 11:00 AM IST, Sun 8 Nov)
    ========================================================================== */
 function initFlipClockCountdown() {
   const daysEl = document.getElementById("flip-val-days");
@@ -99,6 +103,200 @@ function initFlipClockCountdown() {
 
   updateClock();
   timerId = setInterval(updateClock, 1000);
+}
+
+/* ==========================================================================
+   2b. Landing Hero 3D Slabs Stage (Staggered Entrance, Scroll Drift, rAF Tilt)
+   ========================================================================== */
+function initHeroSlabs3D(reducedMotion) {
+  const wrapper = document.getElementById("hero-stage-wrapper");
+  const viewport = document.getElementById("hero-stage-viewport");
+  const slabBlack = document.getElementById("slab-black");
+  const slabPurple = document.getElementById("slab-purple");
+  const slabLime = document.getElementById("slab-lime");
+
+  if (!viewport || !slabBlack || !slabPurple || !slabLime) return;
+
+  if (reducedMotion) {
+    viewport.style.transform = "none";
+    slabBlack.style.transform = "none";
+    slabPurple.style.transform = "none";
+    slabLime.style.transform = "none";
+    slabBlack.style.opacity = "1";
+    slabPurple.style.opacity = "1";
+    slabLime.style.opacity = "1";
+    return;
+  }
+
+  // Base depths
+  const baseBlackZ = 0;
+  const basePurpleZ = 40;
+  const baseLimeZ = 80;
+
+  // Staggered entrance on initial load
+  slabBlack.style.opacity = "0";
+  slabBlack.style.transform = "translate3d(0, 0, -60px)";
+  slabPurple.style.opacity = "0";
+  slabPurple.style.transform = "translate3d(0, 0, -20px)";
+  slabLime.style.opacity = "0";
+  slabLime.style.transform = "translate3d(0, 0, 140px)";
+
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      slabBlack.style.transition = "transform 650ms cubic-bezier(0.16, 1, 0.3, 1), opacity 450ms ease";
+      slabBlack.style.opacity = "1";
+      slabBlack.style.transform = `translate3d(0, 0, ${baseBlackZ}px)`;
+    }, 50);
+
+    setTimeout(() => {
+      slabPurple.style.transition = "transform 650ms cubic-bezier(0.16, 1, 0.3, 1), opacity 450ms ease";
+      slabPurple.style.opacity = "1";
+      slabPurple.style.transform = `translate3d(0, 0, ${basePurpleZ}px)`;
+    }, 160);
+
+    setTimeout(() => {
+      slabLime.style.transition = "transform 650ms cubic-bezier(0.16, 1, 0.3, 1), opacity 450ms ease";
+      slabLime.style.opacity = "1";
+      slabLime.style.transform = `translate3d(0, 0, ${baseLimeZ}px)`;
+    }, 280);
+  });
+
+  // Parallax Z-depth drift on scroll
+  let currentScroll = 0;
+  let tickingScroll = false;
+
+  window.addEventListener("scroll", () => {
+    if (!tickingScroll) {
+      window.requestAnimationFrame(() => {
+        currentScroll = window.scrollY || window.pageYOffset || 0;
+        if (currentScroll < 800) {
+          const drift = currentScroll * 0.25;
+          slabBlack.style.transform = `translate3d(0, 0, ${baseBlackZ - drift * 0.4}px)`;
+          slabPurple.style.transform = `translate3d(0, 0, ${basePurpleZ + drift * 0.6}px)`;
+          slabLime.style.transform = `translate3d(0, 0, ${baseLimeZ + drift * 1.3}px)`;
+        }
+        tickingScroll = false;
+      });
+      tickingScroll = true;
+    }
+  }, { passive: true });
+
+  // Pointer tilt (rAF-smoothed)
+  const baseRotX = 12;
+  const baseRotY = -18;
+  const baseRotZ = 3;
+
+  let targetTiltX = 0;
+  let targetTiltY = 0;
+  let curTiltX = 0;
+  let curTiltY = 0;
+  let isTilting = false;
+
+  function renderTilt() {
+    curTiltX += (targetTiltX - curTiltX) * 0.08;
+    curTiltY += (targetTiltY - curTiltY) * 0.08;
+
+    viewport.style.transform = `rotateX(${baseRotX + curTiltX}deg) rotateY(${baseRotY + curTiltY}deg) rotateZ(${baseRotZ}deg)`;
+
+    if (Math.abs(targetTiltX - curTiltX) > 0.05 || Math.abs(targetTiltY - curTiltY) > 0.05) {
+      requestAnimationFrame(renderTilt);
+    } else {
+      isTilting = false;
+    }
+  }
+
+  function handlePointerMove(e) {
+    const rect = (wrapper || viewport).getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+
+    const normX = (e.clientX - centerX) / (window.innerWidth / 2);
+    const normY = (e.clientY - centerY) / (window.innerHeight / 2);
+
+    targetTiltY = Math.max(-12, Math.min(12, normX * 14));
+    targetTiltX = Math.max(-10, Math.min(10, -normY * 12));
+
+    if (!isTilting) {
+      isTilting = true;
+      requestAnimationFrame(renderTilt);
+    }
+  }
+
+  function handlePointerLeave() {
+    targetTiltX = 0;
+    targetTiltY = 0;
+    if (!isTilting) {
+      isTilting = true;
+      requestAnimationFrame(renderTilt);
+    }
+  }
+
+  const heroSec = document.getElementById("hero");
+  if (heroSec) {
+    heroSec.addEventListener("pointermove", handlePointerMove, { passive: true });
+    heroSec.addEventListener("pointerleave", handlePointerLeave, { passive: true });
+  }
+}
+
+/* ==========================================================================
+   2c. Overview Hero 3D Slab Pair (Subtle Pointer Parallax)
+   ========================================================================== */
+function initOverviewHero3D(reducedMotion) {
+  const slabPair = document.getElementById("overview-slab-pair");
+  const heroLight = document.querySelector(".overview-hero-light");
+
+  if (!slabPair || !heroLight) return;
+
+  if (reducedMotion) {
+    slabPair.style.transform = "none";
+    return;
+  }
+
+  let targetX = 0;
+  let targetY = 0;
+  let curX = 0;
+  let curY = 0;
+  let isTilting = false;
+
+  const baseRotX = 14;
+  const baseRotY = -18;
+  const baseRotZ = 3;
+
+  function renderOverviewTilt() {
+    curX += (targetX - curX) * 0.06;
+    curY += (targetY - curY) * 0.06;
+
+    slabPair.style.transform = `rotateX(${baseRotX + curX}deg) rotateY(${baseRotY + curY}deg) rotateZ(${baseRotZ}deg)`;
+
+    if (Math.abs(targetX - curX) > 0.05 || Math.abs(targetY - curY) > 0.05) {
+      requestAnimationFrame(renderOverviewTilt);
+    } else {
+      isTilting = false;
+    }
+  }
+
+  heroLight.addEventListener("pointermove", (e) => {
+    const rect = heroLight.getBoundingClientRect();
+    const relX = (e.clientX - rect.left) / rect.width - 0.5;
+    const relY = (e.clientY - rect.top) / rect.height - 0.5;
+
+    targetY = relX * 10;
+    targetX = -relY * 8;
+
+    if (!isTilting) {
+      isTilting = true;
+      requestAnimationFrame(renderOverviewTilt);
+    }
+  }, { passive: true });
+
+  heroLight.addEventListener("pointerleave", () => {
+    targetX = 0;
+    targetY = 0;
+    if (!isTilting) {
+      isTilting = true;
+      requestAnimationFrame(renderOverviewTilt);
+    }
+  }, { passive: true });
 }
 
 /* ==========================================================================
@@ -279,8 +477,11 @@ function initDashboardRouting() {
 
     if (breadcrumbEl) {
       if (route === "overview") breadcrumbEl.textContent = "Overview Track";
-      else if (route === "my-events") breadcrumbEl.textContent = "My Events 3D Carousel";
+      else if (route === "my-events") breadcrumbEl.textContent = "My Events Portfolio";
       else if (route === "events") breadcrumbEl.textContent = "Challenge Arena";
+      else if (route === "workspace") breadcrumbEl.textContent = "Project Workspace";
+      else if (route === "hackmate") breadcrumbEl.textContent = "HackMate Squad Board";
+      else if (route === "achievements") breadcrumbEl.textContent = "Verified Credentials";
     }
 
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -306,8 +507,11 @@ function initDashboardRouting() {
   window.addEventListener("keydown", (e) => {
     if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA" || e.target.tagName === "SELECT") return;
     if (e.key === "1") { window.location.hash = "#overview"; }
-    if (e.key === "2") { window.location.hash = "#my-events"; }
-    if (e.key === "3") { window.location.hash = "#events"; }
+    else if (e.key === "2") { window.location.hash = "#my-events"; }
+    else if (e.key === "3") { window.location.hash = "#events"; }
+    else if (e.key === "4") { window.location.hash = "#workspace"; }
+    else if (e.key === "5") { window.location.hash = "#hackmate"; }
+    else if (e.key === "6") { window.location.hash = "#achievements"; }
   });
 }
 
@@ -442,6 +646,105 @@ function initProfilePopover() {
 }
 
 /* ==========================================================================
+   6b. Activity Center & Telemetry Feed Modal
+   ========================================================================== */
+function initActivityCenter() {
+  const activityBtn = document.getElementById("topbar-activity-btn");
+  const activityModal = document.getElementById("activity-modal");
+  const activityBackdrop = document.getElementById("activity-backdrop");
+  const closeBtn = document.getElementById("activity-modal-close");
+  const btnClose = document.getElementById("btn-close-activity");
+  const markReadBtn = document.getElementById("btn-mark-all-read");
+  const unreadCount = document.getElementById("activity-unread-count");
+
+  if (!activityBtn || !activityModal || !activityBackdrop) return;
+
+  function openActivity() {
+    activityBackdrop.classList.add("is-open");
+    activityModal.classList.add("is-open");
+    activityModal.setAttribute("aria-hidden", "false");
+    activityModal.focus();
+  }
+
+  function closeActivity() {
+    activityBackdrop.classList.remove("is-open");
+    activityModal.classList.remove("is-open");
+    activityModal.setAttribute("aria-hidden", "true");
+    activityBtn.focus();
+  }
+
+  activityBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (activityModal.classList.contains("is-open")) closeActivity();
+    else openActivity();
+  });
+
+  if (closeBtn) closeBtn.addEventListener("click", closeActivity);
+  if (btnClose) btnClose.addEventListener("click", closeActivity);
+  activityBackdrop.addEventListener("click", closeActivity);
+
+  if (markReadBtn && unreadCount) {
+    markReadBtn.addEventListener("click", () => {
+      unreadCount.textContent = "0";
+      unreadCount.style.display = "none";
+      showCampusToast("All activity notifications marked as read.", "info");
+    });
+  }
+
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && activityModal.classList.contains("is-open")) {
+      closeActivity();
+    }
+  });
+}
+
+/* ==========================================================================
+   6c. Workspace Checkpoints & HackMate Teammate Interactions
+   ========================================================================== */
+function initWorkspaceAndHackMate() {
+  const pushBtn = document.getElementById("btn-push-checkpoint");
+  if (pushBtn) {
+    pushBtn.addEventListener("click", () => {
+      pushBtn.textContent = "Pushing Checkpoint...";
+      setTimeout(() => {
+        pushBtn.textContent = "Push New Sprint Checkpoint ↑";
+        showCampusToast("Sprint checkpoint sha256:e4f9b12 pushed to jury review queue.", "success");
+      }, 400);
+    });
+  }
+
+  const inviteBtns = document.querySelectorAll(".btn-invite-candidate");
+  inviteBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const candidate = btn.getAttribute("data-candidate") || "candidate";
+      if (!btn.classList.contains("is-invited")) {
+        btn.classList.add("is-invited");
+        btn.className = "btn btn-secondary btn-sm btn-invite-candidate is-invited";
+        btn.innerHTML = `<span>✓ Invitation Dispatched</span>`;
+        showCampusToast(`Invitation dispatched to ${candidate} for Team Stark.`, "success");
+      } else {
+        showCampusToast(`Invitation already pending with ${candidate}.`, "info");
+      }
+    });
+  });
+
+  const downloadBadgeBtn = document.querySelector(".btn-download-badge");
+  if (downloadBadgeBtn) {
+    downloadBadgeBtn.addEventListener("click", () => {
+      showCampusToast("Digital Credential #CC-26-8842 downloaded to your device.", "success");
+    });
+  }
+
+  const downloadCertBtns = document.querySelectorAll(".btn-download-cert");
+  downloadCertBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const cert = btn.getAttribute("data-cert") || "Certificate";
+      showCampusToast(`Downloading ${cert} PDF...`, "success");
+    });
+  });
+}
+
+/* ==========================================================================
    7. Auth Forms: Real Inline Validation & 3-Step Wizard
    ========================================================================== */
 function initAuthForms() {
@@ -460,6 +763,46 @@ function initAuthForms() {
     });
   });
 
+  const forgotPassBtn = document.getElementById("btn-forgot-password");
+  if (forgotPassBtn) {
+    forgotPassBtn.addEventListener("click", () => {
+      const emailInput = document.getElementById("login-email");
+      const targetEmail = (emailInput && emailInput.value.includes("@")) ? emailInput.value : "your registered student email";
+      showCampusToast(`Password reset link dispatched to ${targetEmail}.`, "info");
+    });
+  }
+
+  const passStrengthInput = document.getElementById("reg-password");
+  const passStrengthFill = document.getElementById("pass-strength-fill");
+  const passStrengthText = document.getElementById("pass-strength-text");
+
+  if (passStrengthInput && passStrengthFill && passStrengthText) {
+    passStrengthInput.addEventListener("input", () => {
+      const val = passStrengthInput.value;
+      if (!val) {
+        passStrengthFill.style.width = "0%";
+        passStrengthFill.style.backgroundColor = "transparent";
+        passStrengthText.textContent = "Too short";
+        passStrengthText.style.color = "var(--text-muted)";
+      } else if (val.length < 6) {
+        passStrengthFill.style.width = "25%";
+        passStrengthFill.style.backgroundColor = "#ff4d4f";
+        passStrengthText.textContent = "Too short";
+        passStrengthText.style.color = "#ff4d4f";
+      } else if (val.length < 10) {
+        passStrengthFill.style.width = "65%";
+        passStrengthFill.style.backgroundColor = "var(--purple)";
+        passStrengthText.textContent = "Fair";
+        passStrengthText.style.color = "var(--purple)";
+      } else {
+        passStrengthFill.style.width = "100%";
+        passStrengthFill.style.backgroundColor = "var(--lime-dark)";
+        passStrengthText.textContent = "Strong";
+        passStrengthText.style.color = "var(--lime-dark)";
+      }
+    });
+  }
+
   const demoLoginBtn = document.getElementById("btn-demo-login");
   if (demoLoginBtn) {
     demoLoginBtn.addEventListener("click", () => {
@@ -468,9 +811,10 @@ function initAuthForms() {
       if (emailInput) emailInput.value = "avi.stark@campuscode.dev";
       if (passInput) passInput.value = "••••••••••••";
       demoLoginBtn.textContent = "Authenticating...";
+      showCampusToast("Welcome back, Avi! Initializing student workspace...", "success");
       setTimeout(() => {
         window.location.href = "dashboard.html#overview";
-      }, 400);
+      }, 500);
     });
   }
 
@@ -502,7 +846,10 @@ function initAuthForms() {
       }
 
       if (valid) {
-        window.location.href = "dashboard.html#overview";
+        showCampusToast("Authentication verified. Loading workspace...", "success");
+        setTimeout(() => {
+          window.location.href = "dashboard.html#overview";
+        }, 400);
       }
     });
   }
@@ -596,11 +943,11 @@ function initAuthForms() {
       const ageCheck = document.getElementById("reg-age-check");
 
       if (rulesCheck && !rulesCheck.checked) {
-        alert("Please accept the Arena Rules and Code of Conduct.");
+        showCampusToast("Please accept the Arena Rules and Code of Conduct.", "warning");
         return;
       }
       if (ageCheck && !ageCheck.checked) {
-        alert("You must confirm you are an active student aged 18+.");
+        showCampusToast("You must confirm you are an active student aged 18+.", "warning");
         return;
       }
 
@@ -608,9 +955,88 @@ function initAuthForms() {
       if (track3) track3.className = "wizard-bar-segment completed";
       if (successState) successState.style.display = "block";
 
+      showCampusToast("Registration approved! Creating student pass...", "success");
+
       setTimeout(() => {
         window.location.href = "dashboard.html#overview";
       }, 1000);
     });
   }
 }
+
+/* ==========================================================================
+   CampusCode Toast Notification System
+   Replaces native browser Chrome alert() dialogs with architectural UI toasts
+   ========================================================================== */
+function showCampusToast(message, type = "info") {
+  let container = document.getElementById("campus-toast-container");
+  if (!container) {
+    container = document.createElement("div");
+    container.id = "campus-toast-container";
+    container.setAttribute("role", "region");
+    container.setAttribute("aria-label", "Notifications");
+    document.body.appendChild(container);
+  }
+
+  const toast = document.createElement("div");
+  toast.className = `campus-toast campus-toast-${type}`;
+  toast.setAttribute("role", "alert");
+  toast.setAttribute("aria-live", "polite");
+
+  let typeBadge = "NOTIFICATION";
+  let badgeClass = "slash-badge-lime";
+  if (type === "success") {
+    typeBadge = "PASSED // VERIFIED";
+    badgeClass = "slash-badge-lime";
+  } else if (type === "warning") {
+    typeBadge = "INPUT REQUIRED";
+    badgeClass = "slash-badge-purple";
+  } else if (type === "error") {
+    typeBadge = "ERROR DETECTED";
+    badgeClass = "slash-badge-black";
+  }
+
+  toast.innerHTML = `
+    <div class="campus-toast-body">
+      <div class="campus-toast-badge-row">
+        <span class="slash-badge ${badgeClass}" style="font-size: 0.65rem; padding: 2px 7px;">${typeBadge}</span>
+        <span class="mono" style="font-size: 0.68rem; color: var(--text-on-black-muted);">CampusCode Node</span>
+      </div>
+      <div class="campus-toast-msg">${message}</div>
+    </div>
+    <button type="button" class="campus-toast-close" aria-label="Close notification">✕</button>
+  `;
+
+  const closeBtn = toast.querySelector(".campus-toast-close");
+  let dismissTimeout = null;
+
+  function dismiss() {
+    if (toast.classList.contains("is-exiting")) return;
+    toast.classList.add("is-exiting");
+    setTimeout(() => {
+      if (toast.parentNode) {
+        toast.parentNode.removeChild(toast);
+      }
+    }, 250);
+  }
+
+  if (closeBtn) closeBtn.addEventListener("click", dismiss);
+
+  dismissTimeout = setTimeout(dismiss, 3800);
+
+  toast.addEventListener("mouseenter", () => {
+    if (dismissTimeout) clearTimeout(dismissTimeout);
+  });
+  toast.addEventListener("mouseleave", () => {
+    dismissTimeout = setTimeout(dismiss, 2000);
+  });
+
+  container.appendChild(toast);
+}
+
+// Override native window.alert so no chrome notification popup is ever triggered
+window.alert = function (message) {
+  showCampusToast(message, "info");
+};
+
+window.showCampusToast = showCampusToast;
