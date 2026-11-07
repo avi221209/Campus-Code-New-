@@ -205,15 +205,15 @@ body {
 
 .overview-3d-slab-pair {
   position: absolute;
-  top: -12px;
-  left: -14px;
-  width: 250px;
-  height: 115px;
+  top: -16px;
+  left: -20px;
+  width: 330px;
+  height: 140px;
   pointer-events: none;
   z-index: 1;
   transform-style: preserve-3d;
-  transform: rotateX(14deg) rotateY(-18deg) rotateZ(3deg);
-  opacity: 0.18;
+  transform: rotateX(12deg) rotateY(-16deg) rotateZ(2.5deg);
+  opacity: 0.85;
   will-change: transform;
   transition: transform 200ms ease-out;
 }
@@ -226,23 +226,27 @@ body {
 }
 
 .overview-slab-item-purple {
-  width: 200px;
-  height: 68px;
-  background: var(--purple);
-  border-left: 3px solid var(--purple);
+  width: 250px;
+  height: 85px;
+  background: rgba(118, 101, 255, 0.16);
+  border: 1px solid rgba(118, 101, 255, 0.4);
+  border-left: 5px solid var(--purple);
+  box-shadow: 0 8px 24px rgba(118, 101, 255, 0.12);
   top: 0;
   left: 0;
   transform: translate3d(0, 0, 0);
 }
 
 .overview-slab-item-black {
-  width: 210px;
-  height: 72px;
-  background: var(--black);
-  border-left: 3px solid var(--lime);
-  top: 22px;
-  left: 30px;
-  transform: translate3d(0, 0, 24px);
+  width: 270px;
+  height: 90px;
+  background: rgba(16, 17, 22, 0.08);
+  border: 1px solid rgba(16, 17, 22, 0.18);
+  border-left: 5px solid var(--lime-dark);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  top: 26px;
+  left: 36px;
+  transform: translate3d(0, 0, 20px);
 }
 
 .overview-track-band {
@@ -580,8 +584,8 @@ h1, h2, h3, h4 {
 .hero-stage-3d-wrapper {
   position: relative;
   width: 100%;
-  max-width: 480px;
-  height: 350px;
+  max-width: 520px;
+  height: 410px;
   margin: 0 auto;
   perspective: 1100px;
   perspective-origin: 50% 50%;
@@ -592,8 +596,8 @@ h1, h2, h3, h4 {
 
 .hero-stage-3d-viewport {
   position: relative;
-  width: 300px;
-  height: 200px;
+  width: 380px;
+  height: 260px;
   transform-style: preserve-3d;
   transform: rotateX(12deg) rotateY(-18deg) rotateZ(3deg);
   will-change: transform;
@@ -601,9 +605,9 @@ h1, h2, h3, h4 {
 
 .hero-slab {
   position: absolute;
-  width: 285px;
-  height: 155px;
-  padding: 16px 20px;
+  width: 355px;
+  height: 195px;
+  padding: 20px 24px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -635,8 +639,8 @@ h1, h2, h3, h4 {
   color: #ffffff;
   border: 1px solid rgba(255, 255, 255, 0.25);
   border-left: 5px solid rgba(255, 255, 255, 0.7);
-  top: 42px;
-  left: 36px;
+  top: 50px;
+  left: 44px;
   z-index: 2;
 }
 
@@ -645,8 +649,8 @@ h1, h2, h3, h4 {
   color: var(--black);
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-left: 5px solid var(--black);
-  top: 84px;
-  left: 72px;
+  top: 100px;
+  left: 88px;
   z-index: 3;
 }
 
@@ -1071,18 +1075,20 @@ h1, h2, h3, h4 {
   border-radius: var(--radius-pill);
   clip-path: var(--slash-clip-dock);
   box-shadow: var(--shadow-dock);
-  padding: 6px 12px;
+  padding: 5px 8px;
   display: flex;
   align-items: center;
-  gap: 4px;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  gap: 3px;
 }
 
 /* Smooth Sliding Lime Active Pill Indicator */
 .dock-indicator-glider {
   position: absolute;
-  top: 6px;
+  top: 5px;
   left: 0;
-  height: calc(100% - 12px);
+  height: calc(100% - 10px);
   width: 0;
   background: var(--lime);
   border-radius: var(--radius-xs);
@@ -1102,21 +1108,27 @@ h1, h2, h3, h4 {
   z-index: 2;
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  padding: 8px 16px;
+  gap: 6px;
+  padding: 6px 11px;
   background: transparent;
   border: none;
   border-radius: var(--radius-xs);
   clip-path: var(--slash-clip-dock-item);
   color: #9c9ca4;
   font-family: var(--font-sans);
-  font-size: 0.85rem;
+  font-size: 0.81rem;
   font-weight: 500;
   cursor: pointer;
   text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
   transition: color 240ms cubic-bezier(0.16, 1, 0.3, 1),
               background-color 200ms ease,
               transform 160ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dock-item-btn span {
+  white-space: nowrap;
 }
 
 .dock-item-btn:hover:not(.active) {

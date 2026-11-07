@@ -433,6 +433,8 @@ function init3DCarousel(reducedMotion) {
         card.classList.remove("is-flipped");
       }
     });
+
+    window.__campusCarouselIndex = currentIndex;
   }
 
   function goNext() {
@@ -902,7 +904,7 @@ function initWorkspaceAndHackMate() {
       pushBtn.textContent = "Pushing Checkpoint...";
       setTimeout(() => {
         pushBtn.textContent = "Push New Sprint Checkpoint ↑";
-        showCampusToast("Sprint checkpoint sha256:e4f9b12 pushed to jury review queue.", "success");
+        showCampusToast("Sprint milestone checkpoint submitted to review panel.", "success");
       }, 400);
     });
   }
