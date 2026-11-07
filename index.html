@@ -21,7 +21,7 @@
 
   <!-- Top Sticky Navigation Bar -->
   <header class="site-header">
-    <a href="index.html" class="brand-wrapper" aria-label="CampusCode Home">
+    <a href="index.html" class="brand-wrapper">
       <img src="assets/campuscode-logo.png" alt="CampusCode Authentic Brand Logo" class="brand-logo-img">
       <div class="brand-info">
         <span class="brand-name">CAMPUSCODE</span>
@@ -41,8 +41,8 @@
       </ul>
     </nav>
 
-    <div class="header-actions">
-      <a href="login.html" class="btn btn-secondary btn-sm">Sign In</a>
+    <div class="header-actions" style="display: flex; align-items: center; gap: 18px;">
+      <a href="login.html" class="nav-link" style="padding: 0; font-size: 0.88rem;">Sign In</a>
       <a href="register.html" class="btn btn-lime btn-sm">Join Arena</a>
     </div>
   </header>
@@ -64,7 +64,7 @@
           </div>
 
           <h1 class="hero-title-giant">
-            Where real student engineers build, compete &amp; ship.
+            Where real student engineers build, compete &amp; ship
           </h1>
 
           <p class="hero-lead-text">
@@ -125,7 +125,7 @@
               </div>
               <div class="terminal-stage-item">
                 <span class="mono" style="color: #888;">03. TECHNICAL REVIEW</span>
-                <span class="mono" style="color: var(--purple); font-size: 0.75rem;">○ 09–11 NOV</span>
+                <span class="mono" style="border: 1px solid var(--purple); border-radius: var(--radius-xs); padding: 1px 6px; color: #ffffff; font-size: 0.75rem;">○ 09–11 NOV</span>
               </div>
             </div>
 
@@ -221,7 +221,7 @@
           </p>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1.25fr 1fr; gap: 20px; align-items: stretch;">
+        <div class="rounds-summary-grid">
           
           <!-- Round 1 -->
           <article style="background: var(--white); border: 1px solid var(--hairline); border-radius: var(--radius-md); padding: 28px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: var(--shadow-sm);">
@@ -264,7 +264,7 @@
             <div>
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                 <span class="slash-badge slash-badge-purple">Round 03</span>
-                <span class="mono" style="font-size: 0.72rem; color: var(--purple);">Upcoming</span>
+                <span class="mono" style="font-size: 0.72rem; color: var(--text-secondary); border: 1px solid var(--purple); border-radius: var(--radius-xs); padding: 1px 6px;">Upcoming</span>
               </div>
               <h3 style="font-size: 1.35rem; margin-bottom: 8px;">Interview &amp; Review</h3>
               <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5;">
@@ -285,7 +285,7 @@
          BAND 4 (DEEP INK BLACK): Arena Telemetry
          ==================================================================== -->
     <section class="band-black" id="pulse">
-      <div class="band-container" style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 48px; align-items: center;">
+      <div class="band-container telemetry-grid-split">
         <div>
           <span class="slash-badge slash-badge-ghost" style="margin-bottom: 10px;">Live Data</span>
           <h2 style="font-size: 2.2rem; color: #ffffff; margin-bottom: 12px;">
@@ -300,22 +300,22 @@
           </div>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 28px;">
+        <div class="telemetry-stats-grid">
           <div style="border-left: 2px solid var(--lime); padding-left: 16px;">
             <div class="display-numeral-giant numeral-lime" style="font-size: 3.2rem;">₹5.0L</div>
-            <div class="mono" style="font-size: 0.75rem; color: var(--text-on-black-muted); text-transform: uppercase;">Grand Prize Pool</div>
+            <div class="mono" style="font-size: 0.75rem; color: var(--text-on-black-muted);">Grand prize pool</div>
           </div>
           <div style="border-left: 2px solid #ffffff; padding-left: 16px;">
             <div class="display-numeral-giant" style="font-size: 3.2rem; color: #ffffff;">14.8K</div>
-            <div class="mono" style="font-size: 0.75rem; color: var(--text-on-black-muted); text-transform: uppercase;">Verified Git Commits</div>
+            <div class="mono" style="font-size: 0.75rem; color: var(--text-on-black-muted);">Verified git commits</div>
           </div>
           <div style="border-left: 2px solid var(--purple); padding-left: 16px;">
             <div class="display-numeral-giant numeral-purple" style="font-size: 3.2rem;">48H</div>
-            <div class="mono" style="font-size: 0.75rem; color: var(--text-on-black-muted); text-transform: uppercase;">Continuous Sprint</div>
+            <div class="mono" style="font-size: 0.75rem; color: var(--text-on-black-muted);">Continuous sprint</div>
           </div>
           <div style="border-left: 2px solid var(--lime); padding-left: 16px;">
             <div class="display-numeral-giant numeral-lime" style="font-size: 3.2rem;">120+</div>
-            <div class="mono" style="font-size: 0.75rem; color: var(--text-on-black-muted); text-transform: uppercase;">University Chapters</div>
+            <div class="mono" style="font-size: 0.75rem; color: var(--text-on-black-muted);">University chapters</div>
           </div>
         </div>
       </div>
@@ -335,7 +335,7 @@
             </p>
           </div>
 
-          <div style="display: flex; gap: 12px; align-items: center;">
+          <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
             <a href="register.html" class="btn btn-lime btn-lg">
               <span>Create Student Pass</span>
               <span class="mono" aria-hidden="true">→</span>
