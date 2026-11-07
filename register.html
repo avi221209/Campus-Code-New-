@@ -75,7 +75,7 @@
             </div>
             <div style="display: flex; justify-content: space-between;">
               <span style="color: var(--text-on-black-muted);">Code Freeze:</span>
-              <strong style="color: #ffffff;">Today 20:31:00 IST</strong>
+              <strong style="color: #ffffff;">Closes 11:00 AM IST, Sun 8 Nov</strong>
             </div>
           </div>
         </div>
@@ -134,7 +134,7 @@
 
             <div class="form-group">
               <label for="reg-college" class="form-label">College / Institute</label>
-              <input type="text" id="reg-college" class="form-input" placeholder="e.g. Indian Institute of Technology" required>
+              <input type="text" id="reg-college" class="form-input" placeholder="e.g. Apex Institute of Technology" required>
               <span class="form-error-msg">Please enter your university name.</span>
             </div>
 
@@ -179,6 +179,15 @@
               <div class="input-with-action" style="position: relative; display: flex; align-items: center;">
                 <input type="password" id="reg-password" class="form-input" placeholder="••••••••••••" required minlength="6">
                 <button type="button" class="input-addon-btn js-toggle-password" style="position: absolute; right: 14px; background: transparent; border: none; font-family: var(--font-mono); font-size: 0.75rem; cursor: pointer; color: var(--text-muted);">SHOW</button>
+              </div>
+              <div class="password-strength-container" style="margin-top: 6px;">
+                <div class="password-strength-bar" style="height: 4px; background: var(--hairline); border-radius: var(--radius-xs); overflow: hidden; display: flex;">
+                  <div id="pass-strength-fill" style="width: 0%; height: 100%; transition: width 0.3s ease, background-color 0.3s ease;"></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-top: 4px;" class="mono">
+                  <span style="font-size: 0.7rem; color: var(--text-muted);">Strength:</span>
+                  <span id="pass-strength-text" style="font-size: 0.7rem; font-weight: 600; color: var(--text-muted);">Too short</span>
+                </div>
               </div>
               <span class="form-error-msg">Password must be at least 6 characters.</span>
             </div>
