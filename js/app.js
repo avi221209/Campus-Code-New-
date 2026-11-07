@@ -260,10 +260,10 @@ function initDashboardRouting() {
       const btnRoute = btn.getAttribute("data-route");
       if (btnRoute === route) {
         btn.classList.add("active");
-        btn.setAttribute("aria-selected", "true");
+        btn.setAttribute("aria-current", "page");
       } else {
         btn.classList.remove("active");
-        btn.setAttribute("aria-selected", "false");
+        btn.removeAttribute("aria-current");
       }
     });
 

@@ -221,7 +221,7 @@
                 <div>
                   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                     <span class="slash-badge slash-badge-purple">Round 03</span>
-                    <span class="mono" style="color: var(--purple); font-size: 0.72rem;">Upcoming</span>
+                    <span class="mono" style="color: var(--text-on-black-muted); border: 1px solid var(--purple); border-radius: var(--radius-xs); padding: 1px 6px; font-size: 0.72rem;">Upcoming</span>
                   </div>
                   <div class="display-numeral-giant numeral-purple" style="font-size: 3rem; margin-bottom: 4px;">03</div>
                   <h3 class="stage-title" style="color: #ffffff;">Interview &amp; Review</h3>
@@ -243,7 +243,7 @@
 
       <!-- BAND 3 (LIGHT): Quick Actions & Directory Link -->
       <section class="band-light" style="padding-top: 48px;">
-        <div class="band-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+        <div class="band-container dashboard-actions-grid">
           
           <article style="background: var(--white); border: 1px solid var(--hairline); border-radius: var(--radius-md); box-shadow: var(--shadow-card); padding: 28px; display: flex; flex-direction: column; justify-content: space-between;">
             <div>
@@ -476,7 +476,7 @@
       <!-- BAND (LIGHT): Challenge Catalog -->
       <section class="band-light" style="padding-top: 10px;">
         <div class="band-container">
-          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;" id="explore-events-grid">
+          <div class="explore-events-grid" id="explore-events-grid">
             
             <!-- Challenge 1 -->
             <article class="explore-event-card" data-category="hackathon" style="background: var(--white); border: 1px solid var(--hairline); border-radius: var(--radius-md); box-shadow: var(--shadow-card); padding: 28px; display: flex; flex-direction: column; justify-content: space-between;">
@@ -588,7 +588,7 @@
 
   <!-- Floating Bottom Dock: Clean Pill Navigation -->
   <nav class="floating-bottom-dock" aria-label="Student Workspace Navigation Dock">
-    <button type="button" class="dock-item-btn active" data-route="overview" aria-label="Go to Overview Track" title="Shortcut: Press 1">
+    <button type="button" class="dock-item-btn active" data-route="overview" aria-label="Go to Overview Track" title="Shortcut: Press 1" aria-current="page">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
       <span>Overview</span>
     </button>
