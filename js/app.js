@@ -1,19 +1,16 @@
 /**
  * CampusCode ReBuild '26 — Student Application Engine
  *
- * Student Developer Workspace & Competition Arena
+ * Core Engineering Workspace Client
  * Features:
- *   - Cursor-Following Lime Slash Highlight (rAF Lerp)
  *   - 3D Rotating Cylindrical Carousel (My Events) with Depth Fade & Flip
- *   - 3D IST Flip-Clock Countdown (Round 2 Cutoff: 07 Nov 2026, 20:31 IST)
+ *   - 3D Flip-Clock Countdown (Round 2 Cutoff: 07 Nov 2026, 20:31 IST)
  *   - Horizontal 3-Round Timeline Track (R1 Recreate, R2 Rebuild, R3 Interview)
- *   - Slab-Wipe Hash Navigation & Floating Bottom Dock
+ *   - Hash Navigation & Floating Pill Bottom Dock
  *   - Real Inline Auth Validation & 3-Step Wizard
  */
 
-// ==========================================================================
-// TOP CONFIGURATION CONSTANTS (ReBuild '26 Core Specification)
-// ==========================================================================
+// Top Configuration Constants
 const STUDENT_NAME = "Avi";
 const TEAM_NAME = "Team Stark";
 const DEADLINE_IST = "2026-11-07T20:31:00+05:30";
@@ -25,10 +22,8 @@ window.DEADLINE_IST = DEADLINE_IST;
 document.addEventListener("DOMContentLoaded", () => {
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  initCursorSlash(prefersReducedMotion);
   initStudentContext();
   initFlipClockCountdown();
-  initHeroSlabs3D(prefersReducedMotion);
   init3DCarousel(prefersReducedMotion);
   initDashboardRouting();
   initEventsFilterAndSearch();
@@ -37,63 +32,9 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* ==========================================================================
-   1. Cursor-Following Lime Slash Highlight (rAF Smoothed)
-   ========================================================================== */
-function initCursorSlash(reducedMotion) {
-  if (reducedMotion) return;
-
-  let cursorSlash = document.getElementById("cursor-slash");
-  if (!cursorSlash) {
-    cursorSlash = document.createElement("div");
-    cursorSlash.id = "cursor-slash";
-    document.body.appendChild(cursorSlash);
-  }
-
-  let targetX = -100, targetY = -100;
-  let curX = -100, curY = -100;
-  let isMoving = false;
-  let rAFId = null;
-
-  function renderCursor() {
-    curX += (targetX - curX) * 0.22;
-    curY += (targetY - curY) * 0.22;
-
-    cursorSlash.style.transform = `translate3d(${curX.toFixed(1)}px, ${curY.toFixed(1)}px, 0) rotate(-15deg)`;
-
-    if (isMoving || Math.abs(targetX - curX) > 0.1 || Math.abs(targetY - curY) > 0.1) {
-      rAFId = requestAnimationFrame(renderCursor);
-    } else {
-      cancelAnimationFrame(rAFId);
-      rAFId = null;
-    }
-  }
-
-  window.addEventListener("mousemove", (e) => {
-    targetX = e.clientX;
-    targetY = e.clientY;
-    cursorSlash.style.opacity = "1";
-
-    if (!rAFId) {
-      isMoving = true;
-      rAFId = requestAnimationFrame(renderCursor);
-    }
-  });
-
-  window.addEventListener("mouseleave", () => {
-    cursorSlash.style.opacity = "0";
-    isMoving = false;
-  });
-}
-
-/* ==========================================================================
-   2. Student Context & Telemetry Identity
+   1. Student Context & Telemetry Identity
    ========================================================================== */
 function initStudentContext() {
-  const greetingEl = document.getElementById("student-greeting-text");
-  if (greetingEl) {
-    greetingEl.textContent = `Welcome back, ${STUDENT_NAME}`;
-  }
-
   const studentDisplays = document.querySelectorAll(".display-student-name");
   studentDisplays.forEach(el => { el.textContent = STUDENT_NAME; });
 
@@ -105,7 +46,7 @@ function initStudentContext() {
 }
 
 /* ==========================================================================
-   3. 3D Flip-Clock Countdown Engine (07 Nov 2026, 20:31:00 IST)
+   2. 3D Flip-Clock Countdown Engine (07 Nov 2026, 20:31:00 IST)
    ========================================================================== */
 function initFlipClockCountdown() {
   const daysEl = document.getElementById("flip-val-days");
@@ -129,7 +70,7 @@ function initFlipClockCountdown() {
       secsEl.textContent = "00";
       const statusPill = document.getElementById("flip-clock-status");
       if (statusPill) {
-        statusPill.textContent = "ROUND 2 CONCLUDED";
+        statusPill.textContent = "Round 2 Concluded";
         statusPill.className = "slash-badge slash-badge-black";
       }
       return;
@@ -151,41 +92,7 @@ function initFlipClockCountdown() {
 }
 
 /* ==========================================================================
-   4. Hero 3D Skewed Slabs (Staggered Entrance & Scroll Z-Depth Drift)
-   ========================================================================== */
-function initHeroSlabs3D(reducedMotion) {
-  const slabBlack = document.getElementById("slab-black");
-  const slabPurple = document.getElementById("slab-purple");
-  const slabLime = document.getElementById("slab-lime");
-
-  if (!slabBlack || !slabPurple || !slabLime || reducedMotion) return;
-
-  // Staggered entrance
-  setTimeout(() => { slabBlack.style.opacity = "1"; }, 80);
-  setTimeout(() => { slabPurple.style.opacity = "1"; }, 220);
-  setTimeout(() => { slabLime.style.opacity = "1"; }, 380);
-
-  // Parallax z-drift on scroll
-  let ticking = false;
-  window.addEventListener("scroll", () => {
-    if (!ticking) {
-      window.requestAnimationFrame(() => {
-        const scrolled = window.scrollY;
-        if (scrolled < 900) {
-          const depthMultiplier = scrolled * 0.2;
-          slabBlack.style.transform = `translateZ(${0 - depthMultiplier * 0.5}px)`;
-          slabPurple.style.transform = `translateZ(${50 + depthMultiplier * 0.8}px)`;
-          slabLime.style.transform = `translateZ(${100 + depthMultiplier * 1.5}px)`;
-        }
-        ticking = false;
-      });
-      ticking = true;
-    }
-  }, { passive: true });
-}
-
-/* ==========================================================================
-   5. Rotating 3D Cylindrical Carousel (My Events View)
+   3. Rotating 3D Cylindrical Carousel (My Events View)
    ========================================================================== */
 function init3DCarousel(reducedMotion) {
   const wheel = document.getElementById("carousel-wheel");
@@ -203,22 +110,18 @@ function init3DCarousel(reducedMotion) {
     const targetRot = currentIndex * -angleStep;
     wheel.style.transform = `rotateY(${targetRot}deg)`;
 
-    // Update depth fade and scale for each card
     cards.forEach((card, idx) => {
-      // Calculate normalized relative position (-1, 0, 1)
       let diff = (idx - (currentIndex % totalCards) + totalCards) % totalCards;
       if (diff > 1) diff -= totalCards;
 
       if (diff === 0) {
-        // Front Active Card
         card.style.opacity = "1";
         card.style.filter = "none";
         card.setAttribute("aria-hidden", "false");
         card.style.pointerEvents = "auto";
         card.style.zIndex = "10";
       } else {
-        // Back / Side Cards (Depth Fade)
-        card.style.opacity = "0.35";
+        card.style.opacity = "0.32";
         card.style.filter = "blur(1.5px)";
         card.setAttribute("aria-hidden", "true");
         card.style.pointerEvents = "none";
@@ -241,7 +144,6 @@ function init3DCarousel(reducedMotion) {
   if (nextBtn) nextBtn.addEventListener("click", goNext);
   if (prevBtn) prevBtn.addEventListener("click", goPrev);
 
-  // Card click: If front card -> flip; if side card -> rotate to front
   cards.forEach((card, idx) => {
     card.addEventListener("click", () => {
       let diff = (idx - (currentIndex % totalCards) + totalCards) % totalCards;
@@ -263,7 +165,6 @@ function init3DCarousel(reducedMotion) {
     });
   });
 
-  // Keyboard navigation when in My Events view
   window.addEventListener("keydown", (e) => {
     if (document.getElementById("view-my-events")?.classList.contains("active")) {
       if (e.key === "ArrowRight") {
@@ -276,7 +177,6 @@ function init3DCarousel(reducedMotion) {
     }
   });
 
-  // Touch / Mouse Drag Gesture on Carousel
   let startX = 0;
   let isDragging = false;
 
@@ -297,33 +197,18 @@ function init3DCarousel(reducedMotion) {
 }
 
 /* ==========================================================================
-   6. Dashboard Slab-Wipe Transition & Hash Routing
+   4. Dashboard Routing & Dock Navigation
    ========================================================================== */
 function initDashboardRouting() {
-  const dockButtons = document.querySelectorAll(".dock-item-btn[data-route]");
+  const dockButtons = document.querySelectorAll(".floating-bottom-dock .dock-item-btn[data-route]");
   const viewPanels = document.querySelectorAll(".dashboard-view-panel");
   const breadcrumbEl = document.getElementById("active-crumb-label");
-  const wipeOverlay = document.getElementById("slab-wipe-overlay");
 
-  if (!viewPanels.length || !dockButtons.length) return;
+  if (!viewPanels.length) return;
 
-  function switchView(targetRoute, triggerWipe = true) {
+  function switchView(targetRoute) {
     const route = targetRoute.replace("#", "") || "overview";
 
-    if (triggerWipe && wipeOverlay) {
-      wipeOverlay.classList.add("is-wiping");
-      setTimeout(() => {
-        applyActiveView(route);
-        setTimeout(() => {
-          wipeOverlay.classList.remove("is-wiping");
-        }, 220);
-      }, 180);
-    } else {
-      applyActiveView(route);
-    }
-  }
-
-  function applyActiveView(route) {
     dockButtons.forEach(btn => {
       const btnRoute = btn.getAttribute("data-route");
       if (btnRoute === route) {
@@ -366,23 +251,23 @@ function initDashboardRouting() {
   window.addEventListener("hashchange", () => {
     const currentHash = window.location.hash.slice(1);
     if (currentHash) {
-      switchView(currentHash, true);
+      switchView(currentHash);
     }
   });
 
   const initialHash = window.location.hash.slice(1) || "overview";
-  switchView(initialHash, false);
+  switchView(initialHash);
 
   window.addEventListener("keydown", (e) => {
     if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
-    if (e.key === "1") switchView("overview", true);
-    if (e.key === "2") switchView("my-events", true);
-    if (e.key === "3") switchView("events", true);
+    if (e.key === "1") switchView("overview");
+    if (e.key === "2") switchView("my-events");
+    if (e.key === "3") switchView("events");
   });
 }
 
 /* ==========================================================================
-   7. Explore Events Search & Category Filter
+   5. Explore Events Search & Category Filter
    ========================================================================== */
 function initEventsFilterAndSearch() {
   const searchInput = document.getElementById("events-search-input");
@@ -390,87 +275,91 @@ function initEventsFilterAndSearch() {
   const exploreCards = document.querySelectorAll(".explore-event-card");
   const emptyStateEl = document.getElementById("events-empty-state");
 
-  if (exploreCards.length) {
-    let currentCategory = "all";
-    let currentQuery = "";
+  if (!exploreCards.length) return;
 
-    function filterExploreCards() {
-      let visibleCount = 0;
+  let currentCategory = "all";
+  let currentQuery = "";
 
-      exploreCards.forEach(card => {
-        const title = (card.querySelector(".event-card-title")?.textContent || "").toLowerCase();
-        const desc = (card.querySelector(".event-card-desc")?.textContent || "").toLowerCase();
-        const category = card.getAttribute("data-category") || "";
-
-        const matchesQuery = !currentQuery || title.includes(currentQuery) || desc.includes(currentQuery);
-        const matchesCategory = currentCategory === "all" || category === currentCategory;
-
-        if (matchesQuery && matchesCategory) {
-          card.style.display = "flex";
-          visibleCount++;
-        } else {
-          card.style.display = "none";
-        }
-      });
-
-      if (emptyStateEl) {
-        emptyStateEl.style.display = visibleCount === 0 ? "flex" : "none";
-      }
-    }
-
-    if (searchInput) {
-      searchInput.addEventListener("input", (e) => {
-        currentQuery = e.target.value.trim().toLowerCase();
-        filterExploreCards();
-      });
-    }
-
-    categoryChips.forEach(chip => {
-      chip.addEventListener("click", () => {
-        categoryChips.forEach(c => c.classList.remove("active"));
-        chip.classList.add("active");
-        currentCategory = chip.getAttribute("data-category");
-        filterExploreCards();
-      });
-    });
+  function filterExploreCards() {
+    let visibleCount = 0;
 
     exploreCards.forEach(card => {
-      const regBtn = card.querySelector(".btn-action-register");
-      const remindBtn = card.querySelector(".btn-action-remind");
+      const title = (card.querySelector(".event-card-title")?.textContent || "").toLowerCase();
+      const desc = (card.querySelector(".event-card-desc")?.textContent || "").toLowerCase();
+      const category = card.getAttribute("data-category") || "";
 
-      if (regBtn) {
-        regBtn.addEventListener("click", (e) => {
-          e.preventDefault();
-          if (regBtn.classList.contains("is-registered")) {
-            regBtn.classList.remove("is-registered");
-            regBtn.textContent = "Register";
-            regBtn.className = "btn btn-lime btn-sm btn-action-register";
-          } else {
-            regBtn.classList.add("is-registered");
-            regBtn.textContent = "✓ Registered";
-            regBtn.className = "btn btn-black btn-sm btn-action-register";
-          }
-        });
-      }
+      const matchesQuery = !currentQuery || title.includes(currentQuery) || desc.includes(currentQuery);
+      const matchesCategory = currentCategory === "all" || category === currentCategory;
 
-      if (remindBtn) {
-        remindBtn.addEventListener("click", (e) => {
-          e.preventDefault();
-          if (remindBtn.classList.contains("is-active")) {
-            remindBtn.classList.remove("is-active");
-            remindBtn.textContent = "Remind Me";
-          } else {
-            remindBtn.classList.add("is-active");
-            remindBtn.textContent = "✓ Reminder Set";
-          }
-        });
+      if (matchesQuery && matchesCategory) {
+        card.style.display = "flex";
+        visibleCount++;
+      } else {
+        card.style.display = "none";
       }
     });
+
+    if (emptyStateEl) {
+      emptyStateEl.style.display = visibleCount === 0 ? "flex" : "none";
+    }
   }
+
+  if (searchInput) {
+    searchInput.addEventListener("input", (e) => {
+      currentQuery = e.target.value.trim().toLowerCase();
+      filterExploreCards();
+    });
+  }
+
+  categoryChips.forEach(chip => {
+    chip.addEventListener("click", () => {
+      categoryChips.forEach(c => {
+        c.classList.remove("active");
+        c.className = "category-chip slash-badge slash-badge-ghost";
+      });
+      chip.classList.add("active");
+      chip.className = "category-chip slash-badge slash-badge-black active";
+      currentCategory = chip.getAttribute("data-category");
+      filterExploreCards();
+    });
+  });
+
+  exploreCards.forEach(card => {
+    const regBtn = card.querySelector(".btn-action-register");
+    const remindBtn = card.querySelector(".btn-action-remind");
+
+    if (regBtn) {
+      regBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (regBtn.classList.contains("is-registered")) {
+          regBtn.classList.remove("is-registered");
+          regBtn.textContent = "Register";
+          regBtn.className = "btn btn-lime btn-sm btn-action-register";
+        } else {
+          regBtn.classList.add("is-registered");
+          regBtn.textContent = "✓ Registered";
+          regBtn.className = "btn btn-black btn-sm btn-action-register is-registered";
+        }
+      });
+    }
+
+    if (remindBtn) {
+      remindBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (remindBtn.classList.contains("is-active")) {
+          remindBtn.classList.remove("is-active");
+          remindBtn.textContent = "Remind Me";
+        } else {
+          remindBtn.classList.add("is-active");
+          remindBtn.textContent = "✓ Reminder Set";
+        }
+      });
+    }
+  });
 }
 
 /* ==========================================================================
-   8. Profile Popover Controller
+   6. Profile Popover Controller
    ========================================================================== */
 function initProfilePopover() {
   const profileTrigger = document.getElementById("dock-profile-trigger");
@@ -511,7 +400,7 @@ function initProfilePopover() {
 }
 
 /* ==========================================================================
-   9. Auth Forms: Real Inline Validation & 3-Step Wizard
+   7. Auth Forms: Real Inline Validation & 3-Step Wizard
    ========================================================================== */
 function initAuthForms() {
   const togglePassBtns = document.querySelectorAll(".js-toggle-password");
@@ -529,174 +418,133 @@ function initAuthForms() {
     });
   });
 
-  const loginForm = document.getElementById("login-form");
   const demoLoginBtn = document.getElementById("btn-demo-login");
+  if (demoLoginBtn) {
+    demoLoginBtn.addEventListener("click", () => {
+      const emailInput = document.getElementById("login-email");
+      const passInput = document.getElementById("login-password");
+      if (emailInput) emailInput.value = "avi.stark@campuscode.dev";
+      if (passInput) passInput.value = "••••••••••••";
+      demoLoginBtn.textContent = "Authenticating...";
+      setTimeout(() => {
+        window.location.href = "dashboard.html#overview";
+      }, 400);
+    });
+  }
 
+  const loginForm = document.getElementById("login-form");
   if (loginForm) {
-    const emailInput = document.getElementById("login-email");
-    const passwordInput = document.getElementById("login-password");
-
     loginForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      let isValid = true;
+      const email = document.getElementById("login-email");
+      const pass = document.getElementById("login-password");
+      let valid = true;
 
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value.trim())) {
-        emailInput.classList.add("is-invalid");
-        isValid = false;
+      if (!email.value || !email.value.includes("@")) {
+        email.classList.add("is-invalid");
+        valid = false;
       } else {
-        emailInput.classList.remove("is-invalid");
-        emailInput.classList.add("is-valid");
+        email.classList.remove("is-invalid");
+        email.classList.add("is-valid");
       }
 
-      if (passwordInput.value.length < 6) {
-        passwordInput.classList.add("is-invalid");
-        isValid = false;
+      if (!pass.value || pass.value.length < 6) {
+        pass.classList.add("is-invalid");
+        valid = false;
       } else {
-        passwordInput.classList.remove("is-invalid");
-        passwordInput.classList.add("is-valid");
+        pass.classList.remove("is-invalid");
+        pass.classList.add("is-valid");
       }
 
-      if (isValid) {
+      if (valid) {
         window.location.href = "dashboard.html#overview";
       }
     });
-
-    if (demoLoginBtn) {
-      demoLoginBtn.addEventListener("click", () => {
-        emailInput.value = "avi.stark@campuscode.dev";
-        passwordInput.value = "StarkShip2026!";
-        emailInput.classList.remove("is-invalid");
-        emailInput.classList.add("is-valid");
-        passwordInput.classList.remove("is-invalid");
-        passwordInput.classList.add("is-valid");
-
-        setTimeout(() => {
-          window.location.href = "dashboard.html#overview";
-        }, 300);
-      });
-    }
   }
 
   const regForm = document.getElementById("register-wizard-form");
   if (regForm) {
-    let currentStep = 1;
-
-    const step1El = document.getElementById("wizard-step-1");
-    const step2El = document.getElementById("wizard-step-2");
-    const step3El = document.getElementById("wizard-step-3");
-    const successEl = document.getElementById("wizard-success-state");
+    const step1 = document.getElementById("wizard-step-1");
+    const step2 = document.getElementById("wizard-step-2");
+    const step3 = document.getElementById("wizard-step-3");
+    const successState = document.getElementById("wizard-success-state");
 
     const track1 = document.getElementById("step-track-1");
     const track2 = document.getElementById("step-track-2");
     const track3 = document.getElementById("step-track-3");
 
-    const nextBtn1 = document.getElementById("btn-next-step-1");
-    const nextBtn2 = document.getElementById("btn-next-step-2");
-    const backBtn2 = document.getElementById("btn-back-step-2");
-    const backBtn3 = document.getElementById("btn-back-step-3");
+    const next1 = document.getElementById("btn-next-step-1");
+    const next2 = document.getElementById("btn-next-step-2");
+    const back2 = document.getElementById("btn-back-step-2");
+    const back3 = document.getElementById("btn-back-step-3");
 
-    function updateProgressIndicators() {
-      track1.className = currentStep >= 1 ? (currentStep > 1 ? "wizard-bar-segment completed" : "wizard-bar-segment active") : "wizard-bar-segment";
-      track2.className = currentStep >= 2 ? (currentStep > 2 ? "wizard-bar-segment completed" : "wizard-bar-segment active") : "wizard-bar-segment";
-      track3.className = currentStep >= 3 ? (currentStep > 3 ? "wizard-bar-segment completed" : "wizard-bar-segment active") : "wizard-bar-segment";
+    function setStep(stepNum) {
+      [step1, step2, step3].forEach((s, idx) => {
+        if (s) s.style.display = (idx + 1 === stepNum) ? "block" : "none";
+      });
+
+      if (track1 && track2 && track3) {
+        track1.className = stepNum >= 1 ? (stepNum > 1 ? "wizard-bar-segment completed" : "wizard-bar-segment active") : "wizard-bar-segment";
+        track2.className = stepNum >= 2 ? (stepNum > 2 ? "wizard-bar-segment completed" : "wizard-bar-segment active") : "wizard-bar-segment";
+        track3.className = stepNum >= 3 ? "wizard-bar-segment active" : "wizard-bar-segment";
+      }
     }
 
-    if (nextBtn1) {
-      nextBtn1.addEventListener("click", () => {
+    if (next1) {
+      next1.addEventListener("click", () => {
         const nameInput = document.getElementById("reg-name");
         const collegeInput = document.getElementById("reg-college");
-
         let valid = true;
-        if (!nameInput.value.trim()) {
-          nameInput.classList.add("is-invalid");
-          valid = false;
-        } else {
-          nameInput.classList.remove("is-invalid");
-        }
 
-        if (!collegeInput.value.trim()) {
-          collegeInput.classList.add("is-invalid");
-          valid = false;
-        } else {
-          collegeInput.classList.remove("is-invalid");
-        }
+        if (!nameInput.value.trim()) { nameInput.classList.add("is-invalid"); valid = false; }
+        else { nameInput.classList.remove("is-invalid"); nameInput.classList.add("is-valid"); }
 
-        if (valid) {
-          step1El.style.display = "none";
-          step2El.style.display = "block";
-          currentStep = 2;
-          updateProgressIndicators();
-        }
+        if (!collegeInput.value.trim()) { collegeInput.classList.add("is-invalid"); valid = false; }
+        else { collegeInput.classList.remove("is-invalid"); collegeInput.classList.add("is-valid"); }
+
+        if (valid) setStep(2);
       });
     }
 
-    if (backBtn2) {
-      backBtn2.addEventListener("click", () => {
-        step2El.style.display = "none";
-        step1El.style.display = "block";
-        currentStep = 1;
-        updateProgressIndicators();
-      });
-    }
-
-    if (nextBtn2) {
-      nextBtn2.addEventListener("click", () => {
+    if (next2) {
+      next2.addEventListener("click", () => {
         const emailInput = document.getElementById("reg-email");
-        const passwordInput = document.getElementById("reg-password");
-
+        const passInput = document.getElementById("reg-password");
         let valid = true;
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value.trim())) {
-          emailInput.classList.add("is-invalid");
-          valid = false;
-        } else {
-          emailInput.classList.remove("is-invalid");
-        }
 
-        if (passwordInput.value.length < 6) {
-          passwordInput.classList.add("is-invalid");
-          valid = false;
-        } else {
-          passwordInput.classList.remove("is-invalid");
-        }
+        if (!emailInput.value.includes("@")) { emailInput.classList.add("is-invalid"); valid = false; }
+        else { emailInput.classList.remove("is-invalid"); emailInput.classList.add("is-valid"); }
 
-        if (valid) {
-          step2El.style.display = "none";
-          step3El.style.display = "block";
-          currentStep = 3;
-          updateProgressIndicators();
-        }
+        if (passInput.value.length < 6) { passInput.classList.add("is-invalid"); valid = false; }
+        else { passInput.classList.remove("is-invalid"); passInput.classList.add("is-valid"); }
+
+        if (valid) setStep(3);
       });
     }
 
-    if (backBtn3) {
-      backBtn3.addEventListener("click", () => {
-        step3El.style.display = "none";
-        step2El.style.display = "block";
-        currentStep = 2;
-        updateProgressIndicators();
-      });
-    }
+    if (back2) back2.addEventListener("click", () => setStep(1));
+    if (back3) back3.addEventListener("click", () => setStep(2));
 
     regForm.addEventListener("submit", (e) => {
       e.preventDefault();
       const rulesCheck = document.getElementById("reg-rules-check");
       const ageCheck = document.getElementById("reg-age-check");
 
-      if (!rulesCheck.checked || !ageCheck.checked) {
-        alert("Please confirm that you agree to the Arena Rules and are 18+ to proceed.");
+      if (rulesCheck && !rulesCheck.checked) {
+        alert("Please accept the Arena Rules and Code of Conduct.");
+        return;
+      }
+      if (ageCheck && !ageCheck.checked) {
+        alert("You must confirm you are an active student aged 18+.");
         return;
       }
 
-      step3El.style.display = "none";
-      if (successEl) {
-        successEl.style.display = "block";
-        currentStep = 4;
-        updateProgressIndicators();
+      step3.style.display = "none";
+      if (successState) successState.style.display = "block";
 
-        setTimeout(() => {
-          window.location.href = "dashboard.html#overview";
-        }, 1500);
-      }
+      setTimeout(() => {
+        window.location.href = "dashboard.html#overview";
+      }, 1000);
     });
   }
 }

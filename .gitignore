@@ -11,3 +11,7 @@ Thumbs.db
 scratch/
 test_*.py
 run_*.py
+check_*.py
+audit_shots/
+unslop_shots/
+

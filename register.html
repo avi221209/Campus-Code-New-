@@ -12,15 +12,12 @@
   <!-- Typography: Google Fonts Inter & DM Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Core Stylesheet -->
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-
-  <!-- Cursor-Following Lime Slash Highlight -->
-  <div id="cursor-slash" aria-hidden="true"></div>
 
   <!-- Top Navigation Header -->
   <header class="site-header">
@@ -29,14 +26,14 @@
       <div class="brand-info">
         <span class="brand-name">CAMPUSCODE</span>
         <span class="brand-tagline-pill">
-          BUILD - COMPETE - SHIP
+          BUILD · COMPETE · SHIP
           <span class="tagline-pulse-dot" aria-hidden="true"></span>
         </span>
       </div>
     </a>
 
     <div class="header-actions">
-      <span class="mono" style="font-size: 0.8rem; color: var(--text-muted);">Already registered?</span>
+      <span class="mono" style="font-size: 0.78rem; color: var(--text-muted);">Already registered?</span>
       <a href="login.html" class="btn btn-secondary btn-sm">Sign In</a>
     </div>
   </header>
@@ -45,38 +42,57 @@
     <!-- Left Deep Ink Black Band -->
     <section class="auth-split-left-band" aria-label="Registration Arena Overview">
       <div>
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
-          <span class="slash-badge slash-badge-lime">STUDENT ARENA ACCESS</span>
-          <span class="mono" style="color: #888; font-size: 0.75rem;">ROUND 2 VERIFIED</span>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+          <span class="slash-badge slash-badge-ghost">Arena Registration</span>
+          <span class="mono" style="color: var(--text-on-black-muted); font-size: 0.75rem;">ROUND 2 VERIFIED</span>
         </div>
 
-        <h1 style="color: #ffffff; font-size: clamp(2.4rem, 4.5vw, 3.8rem); line-height: 1.05; letter-spacing: -0.04em; margin-bottom: 16px;">
-          FORGE YOUR SQUAD. CLAIM YOUR PASS.
+        <h1 style="color: #ffffff; font-size: clamp(2.2rem, 3.8vw, 3.2rem); margin-bottom: 14px;">
+          Forge your squad. Claim your pass.
         </h1>
-        <p style="color: #a8a8a2; font-size: 1.05rem; line-height: 1.6; max-width: 500px;">
+        <p style="color: var(--text-on-black-secondary); font-size: 0.98rem; line-height: 1.6; max-width: 480px;">
           Join over 120 campus chapters competing for national honors. All accounts are locked to active students with institutional verification.
         </p>
 
-        <!-- Resting 3D Skewed Slabs Sculpture -->
-        <div style="position: relative; width: 240px; height: 180px; margin: 36px 0; perspective: 800px; transform-style: preserve-3d;" aria-hidden="true">
-          <div style="position: absolute; width: 150px; height: 85px; background: #222; border: 1px solid #444; clip-path: var(--slash-clip-card-angled); transform: rotateX(15deg) rotateY(-20deg) translateZ(0px); top: 10px; left: 10px;"></div>
-          <div style="position: absolute; width: 150px; height: 85px; background: var(--purple); clip-path: var(--slash-clip-card-angled); transform: rotateX(15deg) rotateY(-20deg) translateZ(35px); top: 40px; left: 45px;"></div>
-          <div style="position: absolute; width: 150px; height: 85px; background: var(--lime); clip-path: var(--slash-clip-card-angled); transform: rotateX(15deg) rotateY(-20deg) translateZ(70px); top: 70px; left: 80px;"></div>
+        <!-- Product Moment: Academic Verification Console -->
+        <div style="background: #111218; border: 1px solid var(--black-border); border-radius: var(--radius-md); padding: 22px; margin: 32px 0; max-width: 420px;" aria-label="Institutional Ledger">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.06); padding-bottom: 12px; margin-bottom: 14px;" class="mono">
+            <span style="font-size: 0.72rem; color: var(--text-on-black-muted);">CRUCIBLE CHARTER</span>
+            <span style="font-size: 0.72rem; color: var(--lime);">● ADMISSIONS OPEN</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 10px; font-size: 0.82rem;" class="mono">
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: var(--text-on-black-muted);">Eligible:</span>
+              <strong style="color: #ffffff;">Enrolled University Students</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: var(--text-on-black-muted);">Squad Limit:</span>
+              <span style="color: #ffffff;">2–4 Engineers</span>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: var(--text-on-black-muted);">Track:</span>
+              <span style="color: var(--lime);">Frontend &amp; UI Architecture</span>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: var(--text-on-black-muted);">Code Freeze:</span>
+              <strong style="color: #ffffff;">Today 20:31:00 IST</strong>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div style="border-top: 1px solid #282828; padding-top: 24px;">
+      <div style="border-top: 1px solid var(--black-border); padding-top: 20px;">
         <div style="display: flex; justify-content: space-between; align-items: flex-end;">
           <div>
-            <div class="mono" style="font-size: 0.72rem; color: #888; text-transform: uppercase;">Verified Pass Holders</div>
-            <div class="display-numeral-giant numeral-lime" style="font-size: 2.8rem;">12,480+</div>
+            <div class="mono" style="font-size: 0.72rem; color: var(--text-on-black-muted); text-transform: uppercase;">Verified Pass Holders</div>
+            <div class="display-numeral-giant numeral-lime" style="font-size: 2.4rem;">12,480+</div>
           </div>
           <div class="mono" style="text-align: right;">
-            <div style="font-size: 0.72rem; color: #888; text-transform: uppercase;">Pass Ratio</div>
-            <div class="display-numeral-giant" style="font-size: 2.8rem; color: #ffffff;">94.2%</div>
+            <div style="font-size: 0.72rem; color: var(--text-on-black-muted); text-transform: uppercase;">Pass Ratio</div>
+            <div class="display-numeral-giant" style="font-size: 2.4rem; color: #ffffff;">94.2%</div>
           </div>
         </div>
-        <div class="mono" style="font-size: 0.72rem; color: #666; margin-top: 14px; letter-spacing: 0.08em; display: flex; justify-content: space-between;">
+        <div class="mono" style="font-size: 0.72rem; color: #5a5c68; margin-top: 12px; letter-spacing: 0.05em; display: flex; justify-content: space-between;">
           <span>CHENNAI · INDIA</span>
           <span style="color: var(--lime-dark);">ALL SYSTEMS OPERATIONAL</span>
         </div>
@@ -87,7 +103,7 @@
     <section class="auth-split-right-band">
       <div class="auth-card-angled" aria-labelledby="register-heading">
         
-        <!-- Slanted Progress Track -->
+        <!-- Progress Track -->
         <div class="wizard-slanted-track" aria-label="Onboarding Progress">
           <div class="wizard-bar-segment active" id="step-track-1" title="Step 1: Identity"></div>
           <div class="wizard-bar-segment" id="step-track-2" title="Step 2: Account"></div>
@@ -95,23 +111,23 @@
         </div>
 
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
-          <span class="slash-badge slash-badge-black">3-STEP ONBOARDING</span>
-          <span class="slash-badge slash-badge-purple" style="font-size: 0.68rem;">ACCOUNT: STUDENT (FIXED)</span>
+          <span class="slash-badge slash-badge-ghost">Step Onboarding</span>
+          <span class="slash-badge slash-badge-purple" style="font-size: 0.68rem;">Account: Student (Fixed)</span>
         </div>
 
         <form id="register-wizard-form" novalidate>
           
           <!-- STEP 1: IDENTITY -->
           <div id="wizard-step-1">
-            <h2 id="register-heading" style="font-size: 1.8rem; letter-spacing: -0.04em; margin-bottom: 6px;">
+            <h2 id="register-heading" style="font-size: 1.8rem; margin-bottom: 6px;">
               Step 1: Academic Identity
             </h2>
-            <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 22px;">
+            <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 20px;">
               Provide your university credentials to establish student eligibility.
             </p>
 
             <div class="form-group">
-              <label for="reg-name" class="form-label">Full Name</label>
+              <label for="reg-name" class="form-label">Full name</label>
               <input type="text" id="reg-name" class="form-input" placeholder="Avi Stark" value="Avi Stark" required>
               <span class="form-error-msg">Please enter your legal student name.</span>
             </div>
@@ -124,7 +140,7 @@
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
               <div class="form-group">
-                <label for="reg-grad" class="form-label">Grad Year</label>
+                <label for="reg-grad" class="form-label">Grad year</label>
                 <select id="reg-grad" class="form-input" style="cursor: pointer;">
                   <option value="2026" selected>2026 (Final Year)</option>
                   <option value="2027">2027 (Pre-Final)</option>
@@ -132,44 +148,43 @@
                 </select>
               </div>
               <div class="form-group">
-                <label for="reg-roll" class="form-label">Roll Number</label>
+                <label for="reg-roll" class="form-label">Roll number</label>
                 <input type="text" id="reg-roll" class="form-input" placeholder="CC-26-8842" value="CC-26-8842">
               </div>
             </div>
 
-            <!-- ONE Lime Action -->
             <button type="button" id="btn-next-step-1" class="btn btn-lime" style="width: 100%; margin-top: 10px;">
-              <span>CONTINUE TO ACCOUNT SETUP</span>
+              <span>Continue to Account Setup</span>
               <span class="mono" aria-hidden="true">→</span>
             </button>
           </div>
 
           <!-- STEP 2: ACCOUNT -->
           <div id="wizard-step-2" style="display: none;">
-            <h2 style="font-size: 1.8rem; letter-spacing: -0.04em; margin-bottom: 6px;">
+            <h2 style="font-size: 1.8rem; margin-bottom: 6px;">
               Step 2: Workspace Account
             </h2>
-            <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 22px;">
+            <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 20px;">
               Create your secure workspace credentials and choose your competition track.
             </p>
 
             <div class="form-group">
-              <label for="reg-email" class="form-label">University Email</label>
+              <label for="reg-email" class="form-label">University email</label>
               <input type="email" id="reg-email" class="form-input" placeholder="avi.stark@campuscode.dev" value="avi.stark@campuscode.dev" required>
               <span class="form-error-msg">Valid institutional email required.</span>
             </div>
 
             <div class="form-group">
-              <label for="reg-password" class="form-label">Create Password</label>
+              <label for="reg-password" class="form-label">Create password</label>
               <div class="input-with-action" style="position: relative; display: flex; align-items: center;">
                 <input type="password" id="reg-password" class="form-input" placeholder="••••••••••••" value="StarkShip2026!" required minlength="6">
-                <button type="button" class="input-addon-btn js-toggle-password" style="position: absolute; right: 16px; background: transparent; border: none; font-family: var(--font-mono); font-size: 0.78rem; cursor: pointer; color: var(--text-secondary);">SHOW</button>
+                <button type="button" class="input-addon-btn js-toggle-password" style="position: absolute; right: 14px; background: transparent; border: none; font-family: var(--font-mono); font-size: 0.75rem; cursor: pointer; color: var(--text-muted);">SHOW</button>
               </div>
               <span class="form-error-msg">Password must be at least 6 characters.</span>
             </div>
 
             <div class="form-group">
-              <label for="reg-track" class="form-label">Competition Track</label>
+              <label for="reg-track" class="form-label">Competition track</label>
               <select id="reg-track" class="form-input">
                 <option value="frontend" selected>Frontend Engineering &amp; UI Architecture</option>
                 <option value="systems">Distributed Systems &amp; Backend</option>
@@ -182,39 +197,39 @@
                 <span>← Back</span>
               </button>
               <button type="button" id="btn-next-step-2" class="btn btn-lime" style="flex: 1;">
-                <span>CONFIRM &amp; RULES →</span>
+                <span>Confirm &amp; Rules →</span>
               </button>
             </div>
           </div>
 
           <!-- STEP 3: CONFIRM & RULES -->
           <div id="wizard-step-3" style="display: none;">
-            <h2 style="font-size: 1.8rem; letter-spacing: -0.04em; margin-bottom: 6px;">
+            <h2 style="font-size: 1.8rem; margin-bottom: 6px;">
               Step 3: Arena Rules &amp; Honor Code
             </h2>
-            <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 22px;">
+            <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 20px;">
               Strict adherence to the ReBuild '26 technical charter is required.
             </p>
 
-            <div style="background: var(--canvas); border: 1px solid var(--hairline); clip-path: var(--slash-clip-card); padding: 18px; margin-bottom: 20px; font-size: 0.85rem;">
-              <div class="mono" style="font-weight: 700; color: var(--black); margin-bottom: 6px;">
+            <div style="background: var(--canvas); border: 1px solid var(--hairline); border-radius: var(--radius-sm); padding: 16px; margin-bottom: 20px; font-size: 0.84rem;">
+              <div class="mono" style="font-weight: 600; color: var(--black); margin-bottom: 6px;">
                 REBUILD '26 CODE OF CONDUCT:
               </div>
-              <ul style="padding-left: 18px; color: var(--text-secondary); line-height: 1.6;">
+              <ul style="padding-left: 18px; color: var(--text-secondary); line-height: 1.5;">
                 <li>All submissions must be original student work built during the sprint.</li>
                 <li>Plagiarism or mirror copies of existing live portals will result in disqualification.</li>
                 <li>Project submissions and team git repositories will be evaluated for code quality and execution integrity.</li>
               </ul>
             </div>
 
-            <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px;">
-              <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 0.88rem; cursor: pointer;">
-                <input type="checkbox" id="reg-rules-check" checked style="accent-color: var(--black); width: 18px; height: 18px; margin-top: 2px;">
+            <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
+              <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 0.86rem; cursor: pointer;">
+                <input type="checkbox" id="reg-rules-check" checked style="accent-color: var(--black); width: 16px; height: 16px; margin-top: 2px;">
                 <span>I agree to the CampusCode ReBuild '26 Arena Rules and Code of Conduct.</span>
               </label>
 
-              <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 0.88rem; cursor: pointer;">
-                <input type="checkbox" id="reg-age-check" checked style="accent-color: var(--black); width: 18px; height: 18px; margin-top: 2px;">
+              <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 0.86rem; cursor: pointer;">
+                <input type="checkbox" id="reg-age-check" checked style="accent-color: var(--black); width: 16px; height: 16px; margin-top: 2px;">
                 <span>I confirm that I am at least 18 years of age and an active university student.</span>
               </label>
             </div>
@@ -224,22 +239,22 @@
                 <span>← Back</span>
               </button>
               <button type="submit" class="btn btn-lime" style="flex: 1;">
-                <span>COMPLETE ENROLLMENT</span>
+                <span>Complete Enrollment</span>
               </button>
             </div>
           </div>
 
           <!-- SUCCESS STATE -->
           <div id="wizard-success-state" style="display: none; text-align: center; padding: 24px 0;">
-            <div class="slash-badge slash-badge-lime" style="margin-bottom: 16px;">
-              ✓ VERIFICATION CONFIRMED
+            <div class="slash-badge slash-badge-lime" style="margin-bottom: 14px;">
+              ✓ Verification Confirmed
             </div>
-            <h2 style="font-size: 2.2rem; margin-bottom: 8px;">Registration Approved</h2>
-            <p style="margin-bottom: 20px; color: var(--text-secondary);">
-              Student Pass issued for <strong>Avi Stark</strong> · Assigned to <strong>Team Stark</strong>. Routing to your engineering workspace...
+            <h2 style="font-size: 2rem; margin-bottom: 8px;">Registration Approved</h2>
+            <p style="margin-bottom: 20px; color: var(--text-secondary); font-size: 0.92rem;">
+              Student pass issued for <strong>Avi Stark</strong> · Assigned to <strong>Team Stark</strong>. Routing to your engineering workspace...
             </p>
             <div style="display: flex; justify-content: center;">
-              <span class="tagline-pulse-dot" style="width: 14px; height: 14px;"></span>
+              <span class="tagline-pulse-dot" style="width: 12px; height: 12px;"></span>
             </div>
           </div>
 
