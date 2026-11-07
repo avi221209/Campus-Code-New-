@@ -19,6 +19,102 @@ window.STUDENT_NAME = STUDENT_NAME;
 window.TEAM_NAME = TEAM_NAME;
 window.DEADLINE_IST = DEADLINE_IST;
 
+/* ==========================================================================
+   CampusCode Toast Notification System
+   Replaces native browser Chrome alert/confirm/prompt dialogs with architectural UI toasts
+   ========================================================================== */
+function showCampusToast(message, type = "info") {
+  let container = document.getElementById("campus-toast-container");
+  if (!container) {
+    container = document.createElement("div");
+    container.id = "campus-toast-container";
+    container.setAttribute("role", "region");
+    container.setAttribute("aria-label", "Notifications");
+    document.body.appendChild(container);
+  }
+
+  const toast = document.createElement("div");
+  toast.className = `campus-toast campus-toast-${type}`;
+  toast.setAttribute("role", "alert");
+  toast.setAttribute("aria-live", "polite");
+
+  let typeBadge = "NOTIFICATION";
+  let badgeClass = "slash-badge-lime";
+  if (type === "success") {
+    typeBadge = "PASSED // VERIFIED";
+    badgeClass = "slash-badge-lime";
+  } else if (type === "warning") {
+    typeBadge = "INPUT REQUIRED";
+    badgeClass = "slash-badge-purple";
+  } else if (type === "error") {
+    typeBadge = "ERROR DETECTED";
+    badgeClass = "slash-badge-black";
+  }
+
+  toast.innerHTML = `
+    <div class="campus-toast-body">
+      <div class="campus-toast-badge-row">
+        <span class="slash-badge ${badgeClass}" style="font-size: 0.65rem; padding: 2px 7px;">${typeBadge}</span>
+        <span class="mono" style="font-size: 0.68rem; color: var(--text-on-black-muted);">CampusCode Node</span>
+      </div>
+      <div class="campus-toast-msg">${message}</div>
+    </div>
+    <button type="button" class="campus-toast-close" aria-label="Close notification">✕</button>
+  `;
+
+  const closeBtn = toast.querySelector(".campus-toast-close");
+  let dismissTimeout = null;
+
+  function dismiss() {
+    if (toast.classList.contains("is-exiting")) return;
+    toast.classList.add("is-exiting");
+    setTimeout(() => {
+      if (toast.parentNode) {
+        toast.parentNode.removeChild(toast);
+      }
+    }, 250);
+  }
+
+  if (closeBtn) closeBtn.addEventListener("click", dismiss);
+
+  dismissTimeout = setTimeout(dismiss, 3800);
+
+  toast.addEventListener("mouseenter", () => {
+    if (dismissTimeout) clearTimeout(dismissTimeout);
+  });
+  toast.addEventListener("mouseleave", () => {
+    dismissTimeout = setTimeout(dismiss, 2000);
+  });
+
+  container.appendChild(toast);
+}
+
+// Override native window.alert, confirm, prompt so Chrome notification popups never appear
+window.alert = function (message) {
+  const msgLower = String(message || "").toLowerCase();
+  let type = "info";
+  if (msgLower.includes("renew") || msgLower.includes("success") || msgLower.includes("verified") || msgLower.includes("approved")) {
+    type = "success";
+  } else if (msgLower.includes("error") || msgLower.includes("failed") || msgLower.includes("invalid")) {
+    type = "error";
+  } else if (msgLower.includes("warn") || msgLower.includes("require")) {
+    type = "warning";
+  }
+  showCampusToast(message, type);
+};
+
+window.confirm = function (message) {
+  showCampusToast(message, "info");
+  return true;
+};
+
+window.prompt = function (message, defaultVal = "") {
+  showCampusToast(message, "info");
+  return defaultVal;
+};
+
+window.showCampusToast = showCampusToast;
+
 document.addEventListener("DOMContentLoaded", () => {
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -443,48 +539,134 @@ function init3DCarousel(reducedMotion) {
 
 /* ==========================================================================
    4. Dashboard Routing & Dock Navigation
+   Coordinated 2-stage section transition with sliding lime glider
    ========================================================================== */
 function initDashboardRouting() {
   const dockButtons = document.querySelectorAll(".floating-bottom-dock .dock-item-btn[data-route]");
   const viewPanels = document.querySelectorAll(".dashboard-view-panel");
   const breadcrumbEl = document.getElementById("active-crumb-label");
+  const glider = document.getElementById("dock-glider");
 
   if (!viewPanels.length) return;
 
-  function switchView(targetRoute) {
-    const route = targetRoute.replace("#", "") || "overview";
+  function updateDockGlider(activeBtn, immediate = false) {
+    if (!glider || !activeBtn) return;
+    const left = activeBtn.offsetLeft;
+    const width = activeBtn.offsetWidth;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+    if (immediate || prefersReducedMotion) {
+      glider.style.transition = "none";
+      glider.style.transform = `translate3d(${left}px, 0, 0)`;
+      glider.style.width = `${width}px`;
+      glider.style.opacity = "1";
+      void glider.offsetHeight;
+      glider.style.transition = "";
+    } else {
+      glider.style.transform = `translate3d(${left}px, 0, 0)`;
+      glider.style.width = `${width}px`;
+      glider.style.opacity = "1";
+    }
+  }
+
+  let activeTransitionTimeout = null;
+  let currentlyTransitioningPanel = null;
+
+  function switchView(targetRoute, isInitial = false) {
+    const route = targetRoute.replace("#", "") || "overview";
+    const targetPanel = document.getElementById(`view-${route}`);
+    if (!targetPanel) return;
+
+    let activeBtn = null;
     dockButtons.forEach(btn => {
       const btnRoute = btn.getAttribute("data-route");
       if (btnRoute === route) {
         btn.classList.add("active");
         btn.setAttribute("aria-current", "page");
+        activeBtn = btn;
       } else {
         btn.classList.remove("active");
         btn.removeAttribute("aria-current");
       }
     });
 
-    viewPanels.forEach(panel => {
-      if (panel.id === `view-${route}`) {
-        panel.classList.add("active");
-        panel.removeAttribute("hidden");
-      } else {
-        panel.classList.remove("active");
-        panel.setAttribute("hidden", "true");
+    if (activeBtn) {
+      updateDockGlider(activeBtn, isInitial);
+      if (activeBtn.scrollIntoView) {
+        activeBtn.scrollIntoView({ behavior: isInitial ? "auto" : "smooth", inline: "nearest", block: "nearest" });
       }
-    });
-
-    if (breadcrumbEl) {
-      if (route === "overview") breadcrumbEl.textContent = "Overview Track";
-      else if (route === "my-events") breadcrumbEl.textContent = "My Events Portfolio";
-      else if (route === "events") breadcrumbEl.textContent = "Challenge Arena";
-      else if (route === "workspace") breadcrumbEl.textContent = "Project Workspace";
-      else if (route === "hackmate") breadcrumbEl.textContent = "HackMate Squad Board";
-      else if (route === "achievements") breadcrumbEl.textContent = "Verified Credentials";
     }
 
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (breadcrumbEl) {
+      const labels = {
+        "overview": "Overview Track",
+        "my-events": "My Events Portfolio",
+        "events": "Challenge Arena",
+        "workspace": "Project Workspace",
+        "hackmate": "HackMate Squad Board",
+        "achievements": "Verified Credentials"
+      };
+      breadcrumbEl.textContent = labels[route] || "Student Workspace";
+    }
+
+    const currentPanel = document.querySelector(".dashboard-view-panel.active");
+    if (currentPanel === targetPanel && !isInitial) {
+      return;
+    }
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // Clear any running transition if user clicks rapidly
+    if (activeTransitionTimeout) {
+      clearTimeout(activeTransitionTimeout);
+      activeTransitionTimeout = null;
+    }
+    if (currentlyTransitioningPanel) {
+      currentlyTransitioningPanel.classList.remove("is-exiting");
+      currentlyTransitioningPanel.classList.remove("active");
+      currentlyTransitioningPanel.setAttribute("hidden", "true");
+      currentlyTransitioningPanel = null;
+    }
+
+    if (isInitial || prefersReducedMotion || !currentPanel) {
+      viewPanels.forEach(panel => {
+        if (panel === targetPanel) {
+          panel.classList.remove("is-exiting", "is-entering");
+          panel.classList.add("active");
+          panel.removeAttribute("hidden");
+        } else {
+          panel.classList.remove("active", "is-exiting", "is-entering");
+          panel.setAttribute("hidden", "true");
+        }
+      });
+      window.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
+      return;
+    }
+
+    // Phase 1: Gently fade out and translate current panel upward -8px (140ms)
+    currentlyTransitioningPanel = currentPanel;
+    currentPanel.classList.add("is-exiting");
+
+    activeTransitionTimeout = setTimeout(() => {
+      activeTransitionTimeout = null;
+      currentlyTransitioningPanel = null;
+
+      // Phase 2: Hide previous panel and prime new panel
+      currentPanel.classList.remove("is-exiting", "active");
+      currentPanel.setAttribute("hidden", "true");
+
+      targetPanel.classList.add("is-entering");
+      targetPanel.removeAttribute("hidden");
+
+      window.scrollTo({ top: 0, behavior: "auto" });
+
+      // Force layout reflow before triggering smooth entry
+      void targetPanel.offsetWidth;
+
+      // Enter smoothly and settle into position in 280ms
+      targetPanel.classList.remove("is-entering");
+      targetPanel.classList.add("active");
+    }, 140);
   }
 
   dockButtons.forEach(btn => {
@@ -501,8 +683,20 @@ function initDashboardRouting() {
     switchView(currentHash);
   });
 
+  window.addEventListener("resize", () => {
+    const activeBtn = document.querySelector(".floating-bottom-dock .dock-item-btn.active");
+    if (activeBtn) updateDockGlider(activeBtn, true);
+  });
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => {
+      const activeBtn = document.querySelector(".floating-bottom-dock .dock-item-btn.active");
+      if (activeBtn) updateDockGlider(activeBtn, true);
+    });
+  }
+
   const initialHash = window.location.hash.slice(1) || "overview";
-  switchView(initialHash);
+  switchView(initialHash, true);
 
   window.addEventListener("keydown", (e) => {
     if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA" || e.target.tagName === "SELECT") return;
@@ -963,80 +1157,3 @@ function initAuthForms() {
     });
   }
 }
-
-/* ==========================================================================
-   CampusCode Toast Notification System
-   Replaces native browser Chrome alert() dialogs with architectural UI toasts
-   ========================================================================== */
-function showCampusToast(message, type = "info") {
-  let container = document.getElementById("campus-toast-container");
-  if (!container) {
-    container = document.createElement("div");
-    container.id = "campus-toast-container";
-    container.setAttribute("role", "region");
-    container.setAttribute("aria-label", "Notifications");
-    document.body.appendChild(container);
-  }
-
-  const toast = document.createElement("div");
-  toast.className = `campus-toast campus-toast-${type}`;
-  toast.setAttribute("role", "alert");
-  toast.setAttribute("aria-live", "polite");
-
-  let typeBadge = "NOTIFICATION";
-  let badgeClass = "slash-badge-lime";
-  if (type === "success") {
-    typeBadge = "PASSED // VERIFIED";
-    badgeClass = "slash-badge-lime";
-  } else if (type === "warning") {
-    typeBadge = "INPUT REQUIRED";
-    badgeClass = "slash-badge-purple";
-  } else if (type === "error") {
-    typeBadge = "ERROR DETECTED";
-    badgeClass = "slash-badge-black";
-  }
-
-  toast.innerHTML = `
-    <div class="campus-toast-body">
-      <div class="campus-toast-badge-row">
-        <span class="slash-badge ${badgeClass}" style="font-size: 0.65rem; padding: 2px 7px;">${typeBadge}</span>
-        <span class="mono" style="font-size: 0.68rem; color: var(--text-on-black-muted);">CampusCode Node</span>
-      </div>
-      <div class="campus-toast-msg">${message}</div>
-    </div>
-    <button type="button" class="campus-toast-close" aria-label="Close notification">✕</button>
-  `;
-
-  const closeBtn = toast.querySelector(".campus-toast-close");
-  let dismissTimeout = null;
-
-  function dismiss() {
-    if (toast.classList.contains("is-exiting")) return;
-    toast.classList.add("is-exiting");
-    setTimeout(() => {
-      if (toast.parentNode) {
-        toast.parentNode.removeChild(toast);
-      }
-    }, 250);
-  }
-
-  if (closeBtn) closeBtn.addEventListener("click", dismiss);
-
-  dismissTimeout = setTimeout(dismiss, 3800);
-
-  toast.addEventListener("mouseenter", () => {
-    if (dismissTimeout) clearTimeout(dismissTimeout);
-  });
-  toast.addEventListener("mouseleave", () => {
-    dismissTimeout = setTimeout(dismiss, 2000);
-  });
-
-  container.appendChild(toast);
-}
-
-// Override native window.alert so no chrome notification popup is ever triggered
-window.alert = function (message) {
-  showCampusToast(message, "info");
-};
-
-window.showCampusToast = showCampusToast;

@@ -311,14 +311,23 @@ h1, h2, h3, h4 {
   text-decoration: none;
   border-radius: var(--radius-sm);
   clip-path: var(--slash-clip-btn);
-  transition: background-color 150ms ease, border-color 150ms ease, transform 100ms ease;
+  transition: background-color 200ms ease,
+              border-color 200ms ease,
+              color 200ms ease,
+              transform 160ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 200ms ease;
   user-select: none;
   border: 1px solid transparent;
   white-space: nowrap;
 }
 
+.btn:hover {
+  transform: translate3d(0, -2px, 0);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
 .btn:active {
-  transform: scale(0.98);
+  transform: translate3d(0, 0, 0) scale(0.97);
 }
 
 /* The ONE primary action per screen */
@@ -332,6 +341,7 @@ h1, h2, h3, h4 {
 
 .btn-lime:hover {
   background-color: #9fe223;
+  box-shadow: 0 4px 18px rgba(168, 230, 46, 0.35);
 }
 
 .btn-black {
@@ -343,6 +353,7 @@ h1, h2, h3, h4 {
 
 .btn-black:hover {
   background-color: #222226;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
 }
 
 .btn-secondary {
@@ -354,8 +365,9 @@ h1, h2, h3, h4 {
 }
 
 .btn-secondary:hover {
-  background-color: #f4f4f0;
-  border-color: #cccbc4;
+  background-color: #ffffff;
+  border-color: #c6c6bd;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
 .band-black .btn-secondary {
@@ -1006,19 +1018,37 @@ h1, h2, h3, h4 {
 }
 
 /* ==========================================================================
-   Dashboard View Routing (Clean Opacity + Transform, No Blade Bleed)
+   Dashboard View Routing (Coordinated Navigation Transition System)
+   Exit: 140ms | Entry: 280ms | Refined Cubic-Bezier
    ========================================================================== */
 .dashboard-view-panel {
   display: none;
   opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 180ms var(--ease-standard), transform 180ms var(--ease-standard);
+  transform: translate3d(0, 10px, 0);
+  transition: opacity 280ms cubic-bezier(0.16, 1, 0.3, 1),
+              transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .dashboard-view-panel.active {
   display: block;
   opacity: 1;
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0);
+}
+
+.dashboard-view-panel.is-exiting {
+  display: block !important;
+  opacity: 0 !important;
+  transform: translate3d(0, -8px, 0) !important;
+  transition: opacity 140ms cubic-bezier(0.4, 0, 1, 1),
+              transform 140ms cubic-bezier(0.4, 0, 1, 1) !important;
+  pointer-events: none;
+}
+
+.dashboard-view-panel.is-entering {
+  display: block !important;
+  opacity: 0 !important;
+  transform: translate3d(0, 10px, 0) !important;
+  transition: none !important;
 }
 
 #slab-wipe-overlay {
@@ -1026,7 +1056,7 @@ h1, h2, h3, h4 {
 }
 
 /* ==========================================================================
-   Floating Bottom Dock (Clean Pill Navigation)
+   Floating Bottom Dock (Sliding Lime Glider & Coordinated Motion)
    ========================================================================== */
 .floating-bottom-dock {
   position: fixed;
@@ -1047,7 +1077,29 @@ h1, h2, h3, h4 {
   gap: 4px;
 }
 
+/* Smooth Sliding Lime Active Pill Indicator */
+.dock-indicator-glider {
+  position: absolute;
+  top: 6px;
+  left: 0;
+  height: calc(100% - 12px);
+  width: 0;
+  background: var(--lime);
+  border-radius: var(--radius-xs);
+  clip-path: var(--slash-clip-dock-item);
+  box-shadow: 0 0 18px rgba(168, 230, 46, 0.42), 0 2px 6px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  will-change: transform, width;
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
+              width 300ms cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 200ms ease;
+}
+
 .dock-item-btn {
+  position: relative;
+  z-index: 2;
   display: inline-flex;
   align-items: center;
   gap: 7px;
@@ -1061,19 +1113,32 @@ h1, h2, h3, h4 {
   font-size: 0.85rem;
   font-weight: 500;
   cursor: pointer;
-  transition: color 150ms ease, background-color 150ms ease;
   text-decoration: none;
+  transition: color 240ms cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 200ms ease,
+              transform 160ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.dock-item-btn:hover {
+.dock-item-btn:hover:not(.active) {
   color: #ffffff;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(168, 230, 46, 0.08);
+}
+
+.dock-item-btn:active {
+  transform: scale(0.96);
 }
 
 .dock-item-btn.active {
-  background: var(--lime);
   color: var(--black);
   font-weight: 600;
+}
+
+.dock-item-btn svg {
+  transition: stroke 240ms cubic-bezier(0.16, 1, 0.3, 1), transform 200ms ease;
+}
+
+.dock-item-btn.active svg {
+  stroke: var(--black);
 }
 
 .dock-badge-pill {
@@ -1085,6 +1150,8 @@ h1, h2, h3, h4 {
   padding: 1px 6px;
   border-radius: var(--radius-xs);
   clip-path: var(--slash-clip-tag);
+  transition: background-color 240ms cubic-bezier(0.16, 1, 0.3, 1),
+              color 240ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .dock-item-btn.active .dock-badge-pill {
@@ -1092,16 +1159,123 @@ h1, h2, h3, h4 {
   color: var(--lime);
 }
 
-/* Profile Popover */
+/* ==========================================================================
+   Section Staggered Component Reveals
+   ========================================================================== */
+@keyframes sectionFadeUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.dashboard-view-panel.active .overview-kpi-card,
+.dashboard-view-panel.active .track-stage-block,
+.dashboard-view-panel.active .explore-event-card,
+.dashboard-view-panel.active .hackmate-candidate-card,
+.dashboard-view-panel.active .workspace-split-grid > article,
+.dashboard-view-panel.active .achievements-split-grid > article {
+  animation: sectionFadeUp 320ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.dashboard-view-panel.active .overview-kpi-card:nth-child(1),
+.dashboard-view-panel.active .explore-event-card:nth-child(1),
+.dashboard-view-panel.active .hackmate-candidate-card:nth-child(1) {
+  animation-delay: 40ms;
+}
+
+.dashboard-view-panel.active .overview-kpi-card:nth-child(2),
+.dashboard-view-panel.active .explore-event-card:nth-child(2),
+.dashboard-view-panel.active .hackmate-candidate-card:nth-child(2) {
+  animation-delay: 80ms;
+}
+
+.dashboard-view-panel.active .overview-kpi-card:nth-child(3),
+.dashboard-view-panel.active .explore-event-card:nth-child(3),
+.dashboard-view-panel.active .hackmate-candidate-card:nth-child(3) {
+  animation-delay: 120ms;
+}
+
+.dashboard-view-panel.active .overview-kpi-card:nth-child(4),
+.dashboard-view-panel.active .explore-event-card:nth-child(4),
+.dashboard-view-panel.active .hackmate-candidate-card:nth-child(4) {
+  animation-delay: 160ms;
+}
+
+.dashboard-view-panel.active .overview-kpi-card:nth-child(5) {
+  animation-delay: 200ms;
+}
+
+/* Subtle elevation micro-interactions */
+.explore-event-card,
+.hackmate-candidate-card,
+.overview-kpi-card {
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 220ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 180ms ease;
+}
+
+.explore-event-card:hover,
+.hackmate-candidate-card:hover {
+  transform: translate3d(0, -3px, 0);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.category-chip {
+  cursor: pointer;
+  transition: transform 160ms cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 180ms ease,
+              color 180ms ease,
+              box-shadow 180ms ease;
+}
+
+.category-chip:hover:not(.active) {
+  transform: translate3d(0, -1px, 0);
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.category-chip:active {
+  transform: scale(0.96);
+}
+
+.form-input {
+  transition: border-color 200ms ease,
+              box-shadow 200ms ease,
+              transform 160ms ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--black);
+  box-shadow: 0 0 0 3px rgba(168, 230, 46, 0.28);
+}
+
+/* Pulse on Activity Unread Counter */
+@keyframes badgeSubtlePulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+#activity-unread-count {
+  animation: badgeSubtlePulse 2.4s ease-in-out infinite;
+}
+
+/* Profile Popover & Activity Center Modal */
 .profile-popover-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   z-index: 998;
   display: none;
   opacity: 0;
-  transition: opacity 150ms ease;
+  transition: opacity 200ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .profile-popover-backdrop.is-open {
@@ -1113,23 +1287,25 @@ h1, h2, h3, h4 {
   position: fixed;
   bottom: 84px;
   left: 50%;
-  transform: translateX(-50%) translateY(10px);
-  width: 360px;
+  transform: translate3d(-50%, 14px, 0);
+  width: 380px;
+  max-width: calc(100vw - 32px);
   background: var(--white);
   border: 1px solid var(--hairline);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-floating);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.22), 0 2px 8px rgba(0, 0, 0, 0.08);
   padding: 24px;
   z-index: 1001;
   display: none;
   opacity: 0;
-  transition: opacity 180ms var(--ease-standard), transform 180ms var(--ease-standard);
+  transition: opacity 240ms cubic-bezier(0.16, 1, 0.3, 1),
+              transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .profile-popover-modal.is-open {
   display: block;
   opacity: 1;
-  transform: translateX(-50%) translateY(0);
+  transform: translate3d(-50%, 0, 0);
 }
 
 /* ==========================================================================
