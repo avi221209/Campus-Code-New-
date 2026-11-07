@@ -93,7 +93,7 @@ function showCampusToast(message, type = "info") {
 window.alert = function (message) {
   const msgLower = String(message || "").toLowerCase();
   let type = "info";
-  if (msgLower.includes("renew") || msgLower.includes("success") || msgLower.includes("verified") || msgLower.includes("approved")) {
+  if (msgLower.includes("renew") || msgLower.includes("success") || msgLower.includes("verified") || msgLower.includes("approved") || msgLower.includes("download")) {
     type = "success";
   } else if (msgLower.includes("error") || msgLower.includes("failed") || msgLower.includes("invalid")) {
     type = "error";
@@ -114,6 +114,17 @@ window.prompt = function (message, defaultVal = "") {
 };
 
 window.showCampusToast = showCampusToast;
+
+// Drain any preemptively intercepted alerts
+if (Array.isArray(window.__campusToastQueue) && window.__campusToastQueue.length) {
+  const pendingQueue = window.__campusToastQueue.slice();
+  window.__campusToastQueue = [];
+  pendingQueue.forEach(item => {
+    if (item && item.msg) {
+      showCampusToast(item.msg, item.type || "info");
+    }
+  });
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;

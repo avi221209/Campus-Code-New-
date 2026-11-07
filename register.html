@@ -9,13 +9,48 @@
   <!-- Favicon & Brand Asset -->
   <link rel="icon" type="image/png" href="assets/campuscode-logo.png">
 
-  <!-- Typography: Google Fonts Inter & DM Mono -->
+  <!-- Typography: Google Fonts Bricolage Grotesque, Inter & DM Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Core Stylesheet -->
   <link rel="stylesheet" href="css/styles.css">
+
+  <!-- Preemptive Zero-Chrome Notification & Dialog Interceptor -->
+  <script>
+    (function () {
+      window.__campusToastQueue = window.__campusToastQueue || [];
+      window.alert = function (msg) {
+        var str = String(msg || "");
+        var isSuccess = /renew|success|verified|approved|download/i.test(str);
+        var isErr = /error|failed|invalid/i.test(str);
+        var type = isErr ? 'error' : (isSuccess ? 'success' : 'info');
+        if (typeof window.showCampusToast === 'function') {
+          window.showCampusToast(str, type);
+        } else {
+          window.__campusToastQueue.push({ msg: str, type: type });
+        }
+      };
+      window.confirm = function (msg) {
+        if (typeof window.showCampusToast === 'function') {
+          window.showCampusToast(String(msg || ""), 'info');
+        } else {
+          window.__campusToastQueue.push({ msg: String(msg || ""), type: 'info' });
+        }
+        return true;
+      };
+      window.prompt = function (msg, def) {
+        if (typeof window.showCampusToast === 'function') {
+          window.showCampusToast(String(msg || ""), 'info');
+        } else {
+          window.__campusToastQueue.push({ msg: String(msg || ""), type: 'info' });
+        }
+        return def || '';
+      };
+    })();
+  </script>
 </head>
 <body>
 
