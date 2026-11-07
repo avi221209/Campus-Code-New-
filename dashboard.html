@@ -39,7 +39,13 @@
       </span>
     </div>
 
-    <div class="header-actions">
+    <div class="header-actions" style="display: flex; align-items: center; gap: 10px;">
+      <!-- Activity Center Bell Button -->
+      <button type="button" class="btn btn-secondary btn-sm" id="topbar-activity-btn" aria-label="Open Activity Center" title="Activity Center (3 unread)" style="position: relative; padding: 6px 10px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+        <span class="dock-badge-pill" id="activity-unread-count" style="background: var(--lime); color: var(--black); font-size: 0.65rem; padding: 1px 4px;">3</span>
+      </button>
+
       <!-- Quick Profile Button -->
       <button type="button" class="btn btn-secondary btn-sm" id="topbar-avatar-btn" onclick="document.getElementById('dock-profile-trigger').click();" aria-label="Open Student Profile">
         <div class="student-avatar-initials" style="font-weight: 700; color: var(--purple);">A</div>
@@ -73,7 +79,7 @@
     </div>
     <span class="telemetry-slash-divider">//</span>
     <div class="telemetry-item">
-      <span>Code Freeze:</span> <strong style="color: var(--lime);">20:31:00 IST</strong>
+      <span>Code Freeze:</span> <strong style="color: var(--lime);">Closes 11:00 AM IST, Sun 8 Nov</strong>
     </div>
     <span class="telemetry-slash-divider">//</span>
     <div class="telemetry-item">
@@ -91,27 +97,94 @@
       
       <!-- BAND 1 (LIGHT): Workspace Title & Briefing -->
       <section class="band-light overview-hero-light">
-        <div class="band-container" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 20px;">
-          <div>
-            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-              <span class="slash-badge slash-badge-lime">Round 2 Evaluation Sprint</span>
-              <span class="mono" style="font-size: 0.75rem; color: var(--text-muted);">
-                IIT Bombay · Chapter #04
-              </span>
+        <div class="band-container">
+          <div class="overview-hero-flex">
+            <div class="overview-hero-heading-stage">
+              <!-- 3D Slab Pair Behind Heading -->
+              <div class="overview-3d-slab-pair" id="overview-slab-pair" aria-hidden="true">
+                <div class="overview-slab-item overview-slab-item-purple"></div>
+                <div class="overview-slab-item overview-slab-item-black"></div>
+              </div>
+
+              <div class="overview-hero-copy">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap;">
+                  <span class="slash-badge slash-badge-lime">Round 2 Evaluation Sprint</span>
+                  <span class="mono" style="font-size: 0.75rem; color: var(--text-muted);">
+                    ID: #CC-26-8842 // Apex Institute · Chapter #04
+                  </span>
+                  <span class="mono" style="font-size: 0.72rem; color: var(--lime-dark); background: rgba(168, 230, 46, 0.15); padding: 2px 8px; border-radius: var(--radius-xs);">
+                    ● IST Session Active · Sat 07 Nov
+                  </span>
+                </div>
+                <h1 style="font-size: clamp(2.2rem, 3.8vw, 3.2rem);" id="student-greeting-text">
+                  Welcome back, <span class="display-student-name">Avi</span>
+                </h1>
+                <p style="font-size: 0.98rem; color: var(--text-secondary); max-width: 620px; margin-top: 4px;">
+                  Leading <strong class="display-team-name">Team Stark</strong> through the ReBuild '26 national crucible. The horizontal progression track below dictates your current evaluation standing.
+                </p>
+              </div>
             </div>
-            <h1 style="font-size: clamp(2.2rem, 3.8vw, 3.2rem);" id="student-greeting-text">
-              ReBuild '26 Engineering Workspace
-            </h1>
-            <p style="font-size: 0.98rem; color: var(--text-secondary); max-width: 600px; margin-top: 4px;">
-              Leading <strong>Team Stark</strong> through the ReBuild '26 national crucible. The horizontal progression track below dictates your current evaluation standing.
-            </p>
+
+            <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+              <a href="#workspace" class="btn btn-lime">
+                <span>Open Project Workspace</span>
+                <span class="mono" aria-hidden="true">→</span>
+              </a>
+              <a href="#my-events" class="btn btn-secondary">
+                <span>3D Event Wheel</span>
+              </a>
+            </div>
           </div>
 
-          <div style="display: flex; gap: 12px; align-items: center;">
-            <a href="#my-events" class="btn btn-secondary">
-              <span>Open 3D Event Portfolio</span>
-              <span class="mono" aria-hidden="true">→</span>
-            </a>
+          <!-- Section 2: Student Overview — 5 Core Metric Counters -->
+          <div style="margin-top: 28px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <span class="mono" style="font-size: 0.74rem; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase;">
+                Student Overview Metrics
+              </span>
+              <span class="mono" style="font-size: 0.72rem; color: var(--purple); font-weight: 500;">
+                All verified on student ledger
+              </span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px;">
+              
+              <!-- Metric 1: Registered Events -->
+              <div style="background: var(--white); border: 1px solid var(--hairline); border-radius: var(--radius-sm); padding: 18px 20px; box-shadow: var(--shadow-sm); border-left: 3px solid var(--black);">
+                <div class="mono" style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 6px;">REGISTERED EVENTS</div>
+                <div class="display-numeral-giant" style="font-size: 2.2rem; line-height: 1; color: var(--black);">3</div>
+                <div class="mono" style="font-size: 0.7rem; color: var(--text-secondary); margin-top: 6px;">2 Arena · 1 Quiz</div>
+              </div>
+
+              <!-- Metric 2: Ongoing Challenges -->
+              <div style="background: var(--white); border: 1px solid var(--hairline); border-radius: var(--radius-sm); padding: 18px 20px; box-shadow: var(--shadow-sm); border-left: 3px solid var(--lime);">
+                <div class="mono" style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 6px;">ONGOING CHALLENGES</div>
+                <div class="display-numeral-giant numeral-lime" style="font-size: 2.2rem; line-height: 1;">1</div>
+                <div class="mono" style="font-size: 0.7rem; color: var(--lime-dark); font-weight: 600; margin-top: 6px;">Round 2 Crucible Active</div>
+              </div>
+
+              <!-- Metric 3: Submissions Delivered -->
+              <div style="background: var(--white); border: 1px solid var(--hairline); border-radius: var(--radius-sm); padding: 18px 20px; box-shadow: var(--shadow-sm); border-left: 3px solid var(--purple);">
+                <div class="mono" style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 6px;">SUBMISSIONS DELIVERED</div>
+                <div class="display-numeral-giant numeral-purple" style="font-size: 2.2rem; line-height: 1;">2</div>
+                <div class="mono" style="font-size: 0.7rem; color: var(--text-secondary); margin-top: 6px;">R1 Passed · FC Passed</div>
+              </div>
+
+              <!-- Metric 4: Completed Rounds -->
+              <div style="background: var(--white); border: 1px solid var(--hairline); border-radius: var(--radius-sm); padding: 18px 20px; box-shadow: var(--shadow-sm); border-left: 3px solid var(--black);">
+                <div class="mono" style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 6px;">COMPLETED ROUNDS</div>
+                <div class="display-numeral-giant" style="font-size: 2.2rem; line-height: 1; color: var(--black);">1</div>
+                <div class="mono" style="font-size: 0.7rem; color: var(--text-secondary); margin-top: 6px;">Round 01 (100% Score)</div>
+              </div>
+
+              <!-- Metric 5: Verified Certificates -->
+              <div style="background: var(--white); border: 1px solid var(--hairline); border-radius: var(--radius-sm); padding: 18px 20px; box-shadow: var(--shadow-sm); border-left: 3px solid var(--lime);">
+                <div class="mono" style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 6px;">VERIFIED CERTIFICATES</div>
+                <div class="display-numeral-giant numeral-lime" style="font-size: 2.2rem; line-height: 1;">1</div>
+                <div class="mono" style="font-size: 0.7rem; color: var(--text-secondary); margin-top: 6px;">FirstCommit '26 Distinction</div>
+              </div>
+
+            </div>
           </div>
         </div>
       </section>
@@ -168,7 +241,7 @@
                     <div>
                       <h3 class="stage-title" style="font-size: 1.5rem; color: #ffffff; margin-bottom: 2px;">Rebuild</h3>
                       <p style="font-size: 0.84rem; color: var(--text-on-black-secondary);">
-                        Saturday 7 November (ends 8:31 PM IST). Full-stack workspace sprint: interactive challenge directories, live countdowns, and verified submissions.
+                        Round 2 Sprint (Closes 11:00 AM IST, Sun 8 Nov). Full-stack workspace sprint: interactive challenge directories, live countdowns, and verified submissions.
                       </p>
                     </div>
                   </div>
@@ -207,7 +280,7 @@
 
                 <div style="border-top: 1px solid var(--black-border); padding-top: 14px; margin-top: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
                   <div class="mono" style="font-size: 0.75rem; color: var(--text-on-black-muted);">
-                    Deadline: <strong style="color: #ffffff;">20:31:00 IST (+05:30)</strong>
+                    Deadline: <strong style="color: #ffffff;">Closes 11:00 AM IST, Sun 8 Nov</strong>
                   </div>
                   <a href="#my-events" class="btn btn-lime btn-sm">
                     <span>Submit Round 2 Build</span>
@@ -327,7 +400,7 @@
                       <ul style="font-size: 0.84rem; color: var(--text-on-black-secondary); text-align: left; padding-left: 20px; line-height: 1.6;">
                         <li>Production deployment active and accessible</li>
                         <li>Complete event workflows and state handling</li>
-                        <li>Live countdown synchronized to 20:31 IST</li>
+                        <li>Live countdown synchronized to Closes 11:00 AM IST, Sun 8 Nov</li>
                       </ul>
                     </div>
                     <div class="mono" style="font-size: 0.74rem; color: var(--lime); text-align: left;">
@@ -584,25 +657,460 @@
 
     </div>
 
+    <!-- ==================================================================
+         VIEW 4: PROJECT WORKSPACE (#workspace)
+         ================================================================== -->
+    <div class="dashboard-view-panel" id="view-workspace" aria-label="Project Workspace" hidden>
+      
+      <section class="band-light" style="padding: 36px 0 20px 0;">
+        <div class="band-container">
+          <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
+            <div>
+              <span class="slash-badge slash-badge-ghost" style="margin-bottom: 6px;">Sprint Console</span>
+              <h2 style="font-size: clamp(2rem, 3.6vw, 3rem);">Project Workspace</h2>
+            </div>
+            <div class="mono" style="font-size: 0.85rem; color: var(--text-secondary);">
+              Squad: <strong class="display-team-name" style="color: var(--black);">Team Stark</strong> // Apex Chapter #04
+            </div>
+          </div>
+
+          <div class="workspace-split-grid">
+            
+            <!-- Left: Active Submission Details & Round Progression -->
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+              
+              <!-- Sprint Metadata Card -->
+              <article style="background: var(--white); border: 1px solid var(--hairline); border-radius: var(--radius-md); box-shadow: var(--shadow-card); padding: 28px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+                  <span class="slash-badge slash-badge-lime">Active Sprint // Round 2</span>
+                  <span class="mono" style="font-size: 0.74rem; color: var(--text-muted);">Cutoff: Closes 11:00 AM IST, Sun 8 Nov</span>
+                </div>
+
+                <h3 style="font-size: 1.45rem; margin-bottom: 8px;">
+                  CampusCode ReBuild '26 — Student Engineering Workspace
+                </h3>
+                <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 20px;">
+                  Engineering a zero-build static student dashboard with accessible 3D visual environments, real-time telemetry synchronization, and strict WCAG 2.2 AA adherence.
+                </p>
+
+                <!-- Technical Attributes Grid -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: var(--canvas); border: 1px solid var(--hairline); border-radius: var(--radius-sm); padding: 16px; margin-bottom: 20px;" class="mono">
+                  <div>
+                    <div style="font-size: 0.7rem; color: var(--text-muted);">REPOSITORY</div>
+                    <div style="font-size: 0.78rem; font-weight: 600; color: var(--black);">campuscode/rebuild-26</div>
+                  </div>
+                  <div>
+                    <div style="font-size: 0.7rem; color: var(--text-muted);">BRANCH // HEAD</div>
+                    <div style="font-size: 0.78rem; font-weight: 600; color: var(--purple);">main · sha256:d8a9f24</div>
+                  </div>
+                  <div>
+                    <div style="font-size: 0.7rem; color: var(--text-muted);">DEPLOYMENT STATUS</div>
+                    <div style="font-size: 0.78rem; font-weight: 600; color: var(--lime-dark);">Verified 60FPS Live</div>
+                  </div>
+                </div>
+
+                <!-- Action Button -->
+                <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                  <button type="button" class="btn btn-lime btn-sm" id="btn-push-checkpoint">
+                    <span>Push New Sprint Checkpoint</span>
+                    <span class="mono" aria-hidden="true">↑</span>
+                  </button>
+                  <a href="index.html" class="btn btn-secondary btn-sm" target="_blank">
+                    <span>Open Public Deployment ↗</span>
+                  </a>
+                </div>
+              </article>
+
+              <!-- Multi-Round Progression Checklist -->
+              <article style="background: var(--white); border: 1px solid var(--hairline); border-radius: var(--radius-md); box-shadow: var(--shadow-card); padding: 26px;">
+                <h4 style="font-size: 1.15rem; margin-bottom: 14px;">Sprint Milestone Progression</h4>
+                
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; border: 1px solid var(--hairline); border-radius: var(--radius-sm); background: var(--canvas);">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                      <span class="mono" style="color: var(--lime-dark); font-weight: 700;">✓</span>
+                      <div>
+                        <div style="font-size: 0.88rem; font-weight: 600;">Stage 01: Recreate Framework &amp; Specs</div>
+                        <div class="mono" style="font-size: 0.72rem; color: var(--text-muted);">Concluded Fri 06 Nov · Score: 100%</div>
+                      </div>
+                    </div>
+                    <span class="slash-badge slash-badge-ghost" style="font-size: 0.68rem;">Passed</span>
+                  </div>
+
+                  <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; border: 1px solid rgba(168, 230, 46, 0.4); border-left: 3px solid var(--lime); border-radius: var(--radius-sm); background: #ffffff;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                      <span class="tagline-pulse-dot" style="margin-top: 0;"></span>
+                      <div>
+                        <div style="font-size: 0.88rem; font-weight: 600;">Stage 02: Rebuild Crucible Sprint</div>
+                        <div class="mono" style="font-size: 0.72rem; color: var(--text-muted);">Active Evaluation · Closes 11:00 AM IST, Sun 8 Nov</div>
+                      </div>
+                    </div>
+                    <span class="slash-badge slash-badge-lime" style="font-size: 0.68rem;">In Progress</span>
+                  </div>
+
+                  <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; border: 1px solid var(--hairline); border-radius: var(--radius-sm); background: var(--canvas);">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                      <span class="mono" style="color: var(--text-muted); font-weight: 700;">○</span>
+                      <div>
+                        <div style="font-size: 0.88rem; font-weight: 600;">Stage 03: Architectural Defense</div>
+                        <div class="mono" style="font-size: 0.72rem; color: var(--text-muted);">National Jury Defense · Scheduled 9–11 Nov</div>
+                      </div>
+                    </div>
+                    <span class="slash-badge slash-badge-ghost" style="font-size: 0.68rem;">Upcoming</span>
+                  </div>
+                </div>
+              </article>
+
+            </div>
+
+            <!-- Right: Evaluator Feedback & Scorecard -->
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+              <article style="background: var(--black-surface); border: 1px solid var(--black-border); color: var(--text-on-black); border-radius: var(--radius-md); box-shadow: var(--shadow-card); padding: 26px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                  <span class="slash-badge slash-badge-ghost" style="color: var(--lime); font-size: 0.68rem;">Jury Scorecard</span>
+                  <span class="mono" style="font-size: 0.72rem; color: var(--text-on-black-muted);">Evaluator: Chennai-01</span>
+                </div>
+
+                <div style="display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px;">
+                  <span class="display-numeral-giant numeral-lime" style="font-size: 3.4rem;">98</span>
+                  <span class="mono" style="font-size: 1.1rem; color: var(--text-on-black-muted);">/ 100</span>
+                </div>
+
+                <h4 style="font-size: 1.1rem; color: #ffffff; margin-bottom: 8px;">Jury Technical Feedback</h4>
+                <p style="font-size: 0.86rem; color: var(--text-on-black-secondary); line-height: 1.6; margin-bottom: 16px;">
+                  "Exemplary modular CSS architecture, fluid 60FPS 3D perspective transformations, and zero console telemetry leaks. Strict WCAG 2.2 AA adherence verified across all four viewport tiers."
+                </p>
+
+                <div style="border-top: 1px solid var(--black-border); padding-top: 14px;" class="mono">
+                  <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.75rem;">
+                    <span style="color: var(--text-on-black-muted);">Code Structure:</span>
+                    <strong style="color: var(--lime);">20 / 20</strong>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.75rem;">
+                    <span style="color: var(--text-on-black-muted);">Responsive Stability:</span>
+                    <strong style="color: var(--lime);">20 / 20</strong>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.75rem;">
+                    <span style="color: var(--text-on-black-muted);">Accessibility (AA):</span>
+                    <strong style="color: var(--lime);">20 / 20</strong>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; font-size: 0.75rem;">
+                    <span style="color: var(--text-on-black-muted);">Performance Index:</span>
+                    <strong style="color: var(--purple);">19 / 20</strong>
+                  </div>
+                </div>
+              </article>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ==================================================================
+         VIEW 5: HACKMATE TEAMMATE MATCHING (#hackmate)
+         ================================================================== -->
+    <div class="dashboard-view-panel" id="view-hackmate" aria-label="HackMate Teammate Matching" hidden>
+      
+      <section class="band-light" style="padding: 36px 0 20px 0;">
+        <div class="band-container">
+          
+          <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; flex-wrap: wrap; gap: 16px;">
+            <div>
+              <span class="slash-badge slash-badge-purple" style="margin-bottom: 6px;">Teammate Discovery</span>
+              <h2 style="font-size: clamp(2rem, 3.6vw, 3rem);">HackMate Squad Board</h2>
+            </div>
+            <p style="color: var(--text-secondary); max-width: 440px; font-size: 0.92rem;">
+              Discover and recruit student technologists with complementary skill sets across 120+ university chapters.
+            </p>
+          </div>
+
+          <!-- Clearly Labeled Mock Data Disclaimer -->
+          <div class="mono" style="background: rgba(118, 101, 255, 0.08); border: 1px solid rgba(118, 101, 255, 0.25); border-radius: var(--radius-sm); padding: 10px 16px; margin-bottom: 24px; font-size: 0.76rem; color: var(--purple); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+            <span>* Simulated Student Builder Profiles for Demonstration</span>
+            <span style="color: var(--text-muted);">Algorithm: Skill Complementarity v2.4</span>
+          </div>
+
+          <!-- Teammate Match Cards Grid -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;" id="hackmate-cards-grid">
+            
+            <!-- Candidate 1 -->
+            <article class="hackmate-candidate-card" style="background: var(--white); border: 1px solid var(--hairline); border-radius: var(--radius-md); box-shadow: var(--shadow-card); padding: 24px; display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                  <span class="slash-badge slash-badge-lime">98% Squad Match</span>
+                  <span class="mono" style="font-size: 0.72rem; color: var(--text-muted);">Apex Institute</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 14px;">
+                  <div style="width: 44px; height: 44px; background: var(--black); color: var(--lime); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-weight: 700; font-size: 1.1rem;">
+                    P
+                  </div>
+                  <div>
+                    <h3 style="font-size: 1.15rem; margin-bottom: 2px;">Priya Sharma</h3>
+                    <div class="mono" style="font-size: 0.74rem; color: var(--purple); font-weight: 600;">Frontend &amp; WebGL Architect</div>
+                  </div>
+                </div>
+                <p style="font-size: 0.86rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 14px;">
+                  Specializes in high-frequency reactive states, WebGL shaders, and fluid 3D transformations. Class of 2026.
+                </p>
+                <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px;">
+                  <span class="slash-badge slash-badge-ghost">React</span>
+                  <span class="slash-badge slash-badge-ghost">Three.js</span>
+                  <span class="slash-badge slash-badge-ghost">CSS-3D</span>
+                </div>
+              </div>
+              <div style="border-top: 1px dashed var(--hairline); padding-top: 14px;">
+                <button type="button" class="btn btn-lime btn-sm btn-invite-candidate" data-candidate="Priya Sharma" style="width: 100%;">
+                  <span>Invite to Team Stark</span>
+                  <span class="mono" aria-hidden="true">+</span>
+                </button>
+              </div>
+            </article>
+
+            <!-- Candidate 2 -->
+            <article class="hackmate-candidate-card" style="background: var(--white); border: 1px solid var(--hairline); border-radius: var(--radius-md); box-shadow: var(--shadow-card); padding: 24px; display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                  <span class="slash-badge slash-badge-purple">94% Squad Match</span>
+                  <span class="mono" style="font-size: 0.72rem; color: var(--text-muted);">National Tech</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 14px;">
+                  <div style="width: 44px; height: 44px; background: var(--purple); color: #ffffff; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-weight: 700; font-size: 1.1rem;">
+                    R
+                  </div>
+                  <div>
+                    <h3 style="font-size: 1.15rem; margin-bottom: 2px;">Rohan Mehta</h3>
+                    <div class="mono" style="font-size: 0.74rem; color: var(--purple); font-weight: 600;">Systems &amp; Rust Engineer</div>
+                  </div>
+                </div>
+                <p style="font-size: 0.86rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 14px;">
+                  Builds high-throughput distributed message queues, WebSocket clustering, and low-latency RPC handlers.
+                </p>
+                <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px;">
+                  <span class="slash-badge slash-badge-ghost">Rust</span>
+                  <span class="slash-badge slash-badge-ghost">Go</span>
+                  <span class="slash-badge slash-badge-ghost">gRPC</span>
+                </div>
+              </div>
+              <div style="border-top: 1px dashed var(--hairline); padding-top: 14px;">
+                <button type="button" class="btn btn-lime btn-sm btn-invite-candidate" data-candidate="Rohan Mehta" style="width: 100%;">
+                  <span>Invite to Team Stark</span>
+                  <span class="mono" aria-hidden="true">+</span>
+                </button>
+              </div>
+            </article>
+
+            <!-- Candidate 3 -->
+            <article class="hackmate-candidate-card" style="background: var(--white); border: 1px solid var(--hairline); border-radius: var(--radius-md); box-shadow: var(--shadow-card); padding: 24px; display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                  <span class="slash-badge slash-badge-ghost" style="color: var(--lime); font-size: 0.68rem;">91% Squad Match</span>
+                  <span class="mono" style="font-size: 0.72rem; color: var(--text-muted);">Vellore Tech</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 14px;">
+                  <div style="width: 44px; height: 44px; background: var(--black); color: #ffffff; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-weight: 700; font-size: 1.1rem;">
+                    A
+                  </div>
+                  <div>
+                    <h3 style="font-size: 1.15rem; margin-bottom: 2px;">Ananya Iyer</h3>
+                    <div class="mono" style="font-size: 0.74rem; color: var(--purple); font-weight: 600;">AI &amp; Agent Specialist</div>
+                  </div>
+                </div>
+                <p style="font-size: 0.86rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 14px;">
+                  Focuses on autonomous LLM agent pipelines, structured embeddings, and local vector retrieval.
+                </p>
+                <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px;">
+                  <span class="slash-badge slash-badge-ghost">PyTorch</span>
+                  <span class="slash-badge slash-badge-ghost">FastEmbed</span>
+                  <span class="slash-badge slash-badge-ghost">Python</span>
+                </div>
+              </div>
+              <div style="border-top: 1px dashed var(--hairline); padding-top: 14px;">
+                <button type="button" class="btn btn-lime btn-sm btn-invite-candidate" data-candidate="Ananya Iyer" style="width: 100%;">
+                  <span>Invite to Team Stark</span>
+                  <span class="mono" aria-hidden="true">+</span>
+                </button>
+              </div>
+            </article>
+
+            <!-- Candidate 4 -->
+            <article class="hackmate-candidate-card" style="background: var(--white); border: 1px solid var(--hairline); border-radius: var(--radius-md); box-shadow: var(--shadow-card); padding: 24px; display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                  <span class="slash-badge slash-badge-ghost" style="font-size: 0.68rem;">89% Squad Match</span>
+                  <span class="mono" style="font-size: 0.72rem; color: var(--text-muted);">Kolkata Eng</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 14px;">
+                  <div style="width: 44px; height: 44px; background: #deded8; color: var(--black); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-weight: 700; font-size: 1.1rem;">
+                    K
+                  </div>
+                  <div>
+                    <h3 style="font-size: 1.15rem; margin-bottom: 2px;">Kabir Das</h3>
+                    <div class="mono" style="font-size: 0.74rem; color: var(--purple); font-weight: 600;">Product Design &amp; A11y</div>
+                  </div>
+                </div>
+                <p style="font-size: 0.86rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 14px;">
+                  Architects accessible design systems, microcopy, and screen reader tested interaction components.
+                </p>
+                <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px;">
+                  <span class="slash-badge slash-badge-ghost">Figma</span>
+                  <span class="slash-badge slash-badge-ghost">WCAG 2.2</span>
+                  <span class="slash-badge slash-badge-ghost">Design Tokens</span>
+                </div>
+              </div>
+              <div style="border-top: 1px dashed var(--hairline); padding-top: 14px;">
+                <button type="button" class="btn btn-lime btn-sm btn-invite-candidate" data-candidate="Kabir Das" style="width: 100%;">
+                  <span>Invite to Team Stark</span>
+                  <span class="mono" aria-hidden="true">+</span>
+                </button>
+              </div>
+            </article>
+
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ==================================================================
+         VIEW 6: ACHIEVEMENTS & DIGITAL CREDENTIALS (#achievements)
+         ================================================================== -->
+    <div class="dashboard-view-panel" id="view-achievements" aria-label="Achievements and Digital Credentials" hidden>
+      
+      <section class="band-light" style="padding: 36px 0 20px 0;">
+        <div class="band-container">
+          <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
+            <div>
+              <span class="slash-badge slash-badge-ghost" style="margin-bottom: 6px;">Student Ledger</span>
+              <h2 style="font-size: clamp(2rem, 3.6vw, 3rem);">Verified Digital Credentials</h2>
+            </div>
+            <p style="color: var(--text-secondary); max-width: 440px; font-size: 0.92rem;">
+              Cryptographically authenticated badges and completion certificates issued by the CampusCode Academic Council.
+            </p>
+          </div>
+
+          <div class="achievements-split-grid">
+            
+            <!-- Digital Student ID Card -->
+            <article style="background: var(--black-surface); border: 1px solid var(--black-border); border-radius: var(--radius-md); padding: 26px; color: var(--text-on-black); box-shadow: var(--shadow-card); position: relative; overflow: hidden;">
+              <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--lime);"></div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <span class="slash-badge slash-badge-lime" style="font-size: 0.68rem;">OFFICIAL DIGITAL BADGE</span>
+                <span class="mono" style="font-size: 0.72rem; color: var(--lime);">LEDGER VERIFIED</span>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 20px;">
+                <div style="width: 52px; height: 52px; background: var(--black); border: 2px solid var(--lime); color: var(--lime); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700;">
+                  A
+                </div>
+                <div>
+                  <h3 style="font-size: 1.35rem; color: #ffffff;" class="display-student-name">Avi Stark</h3>
+                  <div class="mono" style="font-size: 0.76rem; color: var(--purple); font-weight: 600;" class="display-team-name">Team Stark</div>
+                  <div class="mono" style="font-size: 0.7rem; color: var(--text-on-black-muted);">Apex Institute · Class of 2026</div>
+                </div>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 10px; background: #0c0d11; border: 1px solid var(--black-border); border-radius: var(--radius-xs); padding: 14px; margin-bottom: 20px;" class="mono">
+                <div style="display: flex; justify-content: space-between; font-size: 0.74rem;">
+                  <span style="color: var(--text-on-black-muted);">STUDENT ID:</span>
+                  <strong style="color: #ffffff;">#CC-26-8842</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.74rem;">
+                  <span style="color: var(--text-on-black-muted);">BUILDER TIER:</span>
+                  <span style="color: var(--lime);">Level 4 National</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.74rem;">
+                  <span style="color: var(--text-on-black-muted);">VERIFICATION HASH:</span>
+                  <span style="color: var(--text-on-black-muted);">sha256:7f4a...9b12</span>
+                </div>
+              </div>
+
+              <button type="button" class="btn btn-lime btn-sm btn-download-badge" style="width: 100%;">
+                <span>Download Verified Credential PDF</span>
+                <span class="mono" aria-hidden="true">↓</span>
+              </button>
+            </article>
+
+            <!-- Verified Certificates Gallery -->
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+              
+              <!-- Certificate 1 -->
+              <article style="background: var(--white); border: 1px solid var(--hairline); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); padding: 22px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+                <div>
+                  <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                    <span class="slash-badge slash-badge-lime" style="font-size: 0.65rem;">National Distinction</span>
+                    <span class="mono" style="font-size: 0.72rem; color: var(--text-muted);">Quiz Score: 96/100</span>
+                  </div>
+                  <h4 style="font-size: 1.15rem; margin-bottom: 4px;">FirstCommit '26 National Honor Roll</h4>
+                  <p style="font-size: 0.84rem; color: var(--text-secondary);">
+                    Ranked #12 across collegiate participants in Region West. Verified by Academic Committee.
+                  </p>
+                </div>
+                <button type="button" class="btn btn-secondary btn-sm btn-download-cert" data-cert="FirstCommit '26 National Distinction">
+                  <span>Download PDF ↓</span>
+                </button>
+              </article>
+
+              <!-- Certificate 2 -->
+              <article style="background: var(--white); border: 1px solid var(--hairline); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); padding: 22px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+                <div>
+                  <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                    <span class="slash-badge slash-badge-purple" style="font-size: 0.65rem;">Round 1 Distinction</span>
+                    <span class="mono" style="font-size: 0.72rem; color: var(--text-muted);">Spec Score: 100/100</span>
+                  </div>
+                  <h4 style="font-size: 1.15rem; margin-bottom: 4px;">ReBuild '26 Round 1 Architecture</h4>
+                  <p style="font-size: 0.84rem; color: var(--text-secondary);">
+                    Awarded to Team Stark for 100% compliance on Stage 01 Recreate specs and component architecture.
+                  </p>
+                </div>
+                <button type="button" class="btn btn-secondary btn-sm btn-download-cert" data-cert="ReBuild '26 Round 1 Architecture">
+                  <span>Download PDF ↓</span>
+                </button>
+              </article>
+
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+    </div>
+
   </main>
 
-  <!-- Floating Bottom Dock: Clean Pill Navigation -->
+  <!-- Floating Bottom Dock: Clean Pill Navigation with All 6 Modules + Profile -->
   <nav class="floating-bottom-dock" aria-label="Student Workspace Navigation Dock">
     <button type="button" class="dock-item-btn active" data-route="overview" aria-label="Go to Overview Track" title="Shortcut: Press 1" aria-current="page">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
       <span>Overview</span>
     </button>
 
     <button type="button" class="dock-item-btn" data-route="my-events" aria-label="Go to My Events 3D Carousel" title="Shortcut: Press 2">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
       <span>My Events</span>
       <span class="dock-badge-pill">3</span>
     </button>
 
     <button type="button" class="dock-item-btn" data-route="events" aria-label="Go to Challenge Arena" title="Shortcut: Press 3">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-      <span>Events</span>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <span>Explore</span>
       <span class="dock-badge-pill" style="background: var(--lime); color: var(--black);">LIVE</span>
+    </button>
+
+    <button type="button" class="dock-item-btn" data-route="workspace" aria-label="Go to Project Workspace" title="Shortcut: Press 4">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+      <span>Workspace</span>
+    </button>
+
+    <button type="button" class="dock-item-btn" data-route="hackmate" aria-label="Go to HackMate Teammate Matching" title="Shortcut: Press 5">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <span>HackMate</span>
+    </button>
+
+    <button type="button" class="dock-item-btn" data-route="achievements" aria-label="Go to Achievements &amp; Credentials" title="Shortcut: Press 6">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+      <span>Credentials</span>
     </button>
 
     <button type="button" class="dock-item-btn" id="dock-profile-trigger" data-route="profile" aria-label="Open Student Profile Popover" aria-haspopup="dialog">
@@ -610,6 +1118,53 @@
       <span>Profile</span>
     </button>
   </nav>
+
+  <!-- Activity Center Drawer / Modal -->
+  <div class="profile-popover-backdrop" id="activity-backdrop" aria-hidden="true"></div>
+  <div class="profile-popover-modal" id="activity-modal" role="dialog" aria-modal="true" aria-labelledby="activity-title" tabindex="-1" style="max-width: 460px;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+      <div>
+        <span class="slash-badge slash-badge-lime" style="font-size: 0.68rem; margin-bottom: 4px;">Live Telemetry</span>
+        <h3 id="activity-title" style="font-size: 1.25rem;">Activity Center</h3>
+      </div>
+      <button type="button" id="activity-modal-close" class="mono" style="background: transparent; border: none; font-size: 1.1rem; cursor: pointer; color: var(--text-secondary);" aria-label="Close Activity Center">✕</button>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid var(--hairline); padding-bottom: 10px;">
+      <span class="mono" style="font-size: 0.74rem; color: var(--text-muted);">Real-time events feed</span>
+      <button type="button" id="btn-mark-all-read" class="mono" style="background: none; border: none; font-size: 0.72rem; color: var(--purple); cursor: pointer; text-decoration: underline;">Mark all read</button>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 18px; max-height: 280px; overflow-y: auto;">
+      <div class="activity-item-row" style="padding: 10px; background: var(--canvas); border: 1px solid var(--hairline); border-radius: var(--radius-xs);">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+          <span class="slash-badge slash-badge-lime" style="font-size: 0.62rem; padding: 1px 5px;">Jury Update</span>
+          <span class="mono" style="font-size: 0.68rem; color: var(--text-muted);">12m ago</span>
+        </div>
+        <div style="font-size: 0.82rem; font-weight: 500;">Round 2 evaluation rubric synchronized to Chennai-01 node.</div>
+      </div>
+
+      <div class="activity-item-row" style="padding: 10px; background: var(--canvas); border: 1px solid var(--hairline); border-radius: var(--radius-xs);">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+          <span class="slash-badge slash-badge-purple" style="font-size: 0.62rem; padding: 1px 5px;">Credential</span>
+          <span class="mono" style="font-size: 0.68rem; color: var(--text-muted);">2h ago</span>
+        </div>
+        <div style="font-size: 0.82rem; font-weight: 500;">FirstCommit '26 National Distinction certificate verified on ledger.</div>
+      </div>
+
+      <div class="activity-item-row" style="padding: 10px; background: var(--canvas); border: 1px solid var(--hairline); border-radius: var(--radius-xs);">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+          <span class="slash-badge slash-badge-black" style="font-size: 0.62rem; padding: 1px 5px;">Squad Telemetry</span>
+          <span class="mono" style="font-size: 0.68rem; color: var(--text-muted);">4h ago</span>
+        </div>
+        <div style="font-size: 0.82rem; font-weight: 500;">Team Stark pushed sprint commit sha256:d8a9f24 to jury queue.</div>
+      </div>
+    </div>
+
+    <button type="button" class="btn btn-secondary btn-sm" id="btn-close-activity" style="width: 100%;">
+      <span>Close Activity Center</span>
+    </button>
+  </div>
 
   <!-- Profile Popover Modal -->
   <div class="profile-popover-backdrop" id="profile-backdrop" aria-hidden="true"></div>
@@ -627,7 +1182,7 @@
       <div>
         <h3 id="profile-title" style="font-size: 1.25rem; line-height: 1.1;" class="display-student-name">Avi Stark</h3>
         <span class="mono" style="font-size: 0.76rem; color: var(--purple); font-weight: 600;" class="display-team-name">Team Stark</span>
-        <div class="mono" style="font-size: 0.72rem; color: var(--text-muted); margin-top: 2px;">IIT BOMBAY · CLASS OF 2026</div>
+        <div class="mono" style="font-size: 0.72rem; color: var(--text-muted); margin-top: 2px;">APEX INSTITUTE · CLASS OF 2026</div>
       </div>
     </div>
 
@@ -648,7 +1203,7 @@
 
     <div style="display: flex; gap: 10px;">
       <a href="index.html" class="btn btn-secondary btn-sm" style="flex: 1;">Sign Out</a>
-      <button type="button" class="btn btn-lime btn-sm" onclick="alert('Student verification key renewed.');" style="flex: 1;">Renew Pass</button>
+      <button type="button" class="btn btn-lime btn-sm" onclick="showCampusToast('Student verification key renewed.', 'success');" style="flex: 1;">Renew Pass</button>
     </div>
   </div>
 
