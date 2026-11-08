@@ -1018,7 +1018,7 @@ function initAuthForms() {
       if (emailInput) emailInput.value = "avi.stark@campuscode.dev";
       if (passInput) passInput.value = "••••••••••••";
       demoLoginBtn.textContent = "Authenticating...";
-      showCampusToast("Welcome back, Avi! Initializing student workspace...", "success");
+      showCampusToast("Identity verified · Initializing student workspace...", "success");
       setTimeout(() => {
         window.location.href = "dashboard.html#overview";
       }, 500);
@@ -1162,7 +1162,7 @@ function initAuthForms() {
       if (track3) track3.className = "wizard-bar-segment completed";
       if (successState) successState.style.display = "block";
 
-      showCampusToast("Registration approved! Creating student pass...", "success");
+      showCampusToast("Registration approved · Creating student pass...", "success");
 
       setTimeout(() => {
         window.location.href = "dashboard.html#overview";

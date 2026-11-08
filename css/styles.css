@@ -260,7 +260,7 @@ body {
   background: rgba(118, 101, 255, 0.16);
   border: 1px solid rgba(118, 101, 255, 0.4);
   border-left: 4px solid var(--purple);
-  box-shadow: 0 8px 20px rgba(118, 101, 255, 0.12);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
   top: 0;
   left: 0;
   transform: translate3d(0, 0, 0);
@@ -459,7 +459,7 @@ h4 {
 
 .btn-lime:hover {
   background-color: #9fe223;
-  box-shadow: 0 4px 18px rgba(168, 230, 46, 0.35);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.16);
 }
 
 .btn-black {
@@ -1200,25 +1200,25 @@ h4 {
   border-radius: var(--radius-pill);
   clip-path: var(--slash-clip-dock);
   box-shadow: var(--shadow-dock);
-  padding: 5px 8px;
+  padding: 4px 8px;
   display: flex;
   align-items: center;
   flex-wrap: nowrap;
   white-space: nowrap;
-  gap: 3px;
+  gap: 4px;
 }
 
 /* Smooth Sliding Lime Active Pill Indicator */
 .dock-indicator-glider {
   position: absolute;
-  top: 5px;
+  top: 4px;
   left: 0;
-  height: calc(100% - 10px);
+  height: calc(100% - 8px);
   width: 0;
   background: var(--lime);
   border-radius: var(--radius-xs);
   clip-path: var(--slash-clip-dock-item);
-  box-shadow: 0 0 18px rgba(168, 230, 46, 0.42), 0 2px 6px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
   pointer-events: none;
   z-index: 1;
   opacity: 0;
@@ -1388,18 +1388,11 @@ h4 {
 .form-input:focus {
   outline: none;
   border-color: var(--black);
-  box-shadow: 0 0 0 3px rgba(168, 230, 46, 0.28);
-}
-
-/* Pulse on Activity Unread Counter */
-@keyframes badgeSubtlePulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.08); }
-  100% { transform: scale(1); }
+  box-shadow: 0 0 0 1px var(--black), 0 2px 6px rgba(0, 0, 0, 0.06);
 }
 
 #activity-unread-count {
-  animation: badgeSubtlePulse 2.4s ease-in-out infinite;
+  display: inline-flex;
 }
 
 /* Profile Popover & Activity Center Modal */
