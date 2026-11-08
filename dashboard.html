@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Student Workspace — CampusCode ReBuild '26</title>
   <meta name="description" content="CampusCode ReBuild '26 Round 2 Student Engineering Workspace. Track sprint milestones, monitor deadlines, and explore collegiate challenges.">
+  <meta name="theme-color" content="#f7f7f4">
+  <meta property="og:title" content="Student Workspace — CampusCode ReBuild '26">
+  <meta property="og:description" content="CampusCode ReBuild '26 Round 2 Student Engineering Workspace. Track sprint milestones, monitor deadlines, and explore collegiate challenges.">
+  <meta property="og:image" content="assets/campuscode-logo.png">
+  <meta property="og:type" content="website">
 
   <!-- Favicon & Brand Asset -->
   <link rel="icon" type="image/png" href="assets/campuscode-logo.png">
@@ -82,7 +87,7 @@
       </button>
 
       <!-- Quick Profile Button -->
-      <button type="button" class="btn btn-secondary btn-sm" id="topbar-avatar-btn" onclick="document.getElementById('dock-profile-trigger').click();" aria-label="Open Student Profile">
+      <button type="button" class="btn btn-secondary btn-md" id="topbar-avatar-btn" onclick="document.getElementById('dock-profile-trigger').click();" aria-label="Open Student Profile">
         <div class="student-avatar-initials" style="width: 20px; height: 20px; border-radius: 50%; background: var(--purple); color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 800;">A</div>
         <span class="display-student-name">Avi</span>
         <span style="color: var(--text-muted);">//</span>
@@ -135,12 +140,6 @@
         <div class="band-container">
           <div class="overview-hero-flex">
             <div class="overview-hero-heading-stage">
-              <!-- 3D Slab Pair Behind Heading -->
-              <div class="overview-3d-slab-pair" id="overview-slab-pair" aria-hidden="true">
-                <div class="overview-slab-item overview-slab-item-purple"></div>
-                <div class="overview-slab-item overview-slab-item-black"></div>
-              </div>
-
               <div class="overview-hero-copy">
                 <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap;">
                   <span class="slash-badge slash-badge-lime">Round 2 Evaluation Sprint</span>
@@ -151,21 +150,27 @@
                     <span style="color: var(--lime-dark); font-weight: 700; margin-right: 4px;">●</span>IST Session Active
                   </span>
                 </div>
-                <h1 style="font-size: clamp(2.2rem, 3.8vw, 3.2rem);" id="student-greeting-text">
+                <h1 id="student-greeting-text">
                   Welcome back, <span class="display-student-name">Avi</span>
                 </h1>
                 <p style="font-size: 0.98rem; color: var(--text-secondary); max-width: 620px; margin-top: 4px;">
                   Leading <strong class="display-team-name">Team Stark</strong> through the ReBuild '26 national crucible. The horizontal progression track below dictates your current evaluation standing.
                 </p>
               </div>
+
+              <!-- 3D Slab Pair Positioned in Empty Area to the Right of Heading -->
+              <div class="overview-3d-slab-pair" id="overview-slab-pair" aria-hidden="true">
+                <div class="overview-slab-item overview-slab-item-purple"></div>
+                <div class="overview-slab-item overview-slab-item-black"></div>
+              </div>
             </div>
 
             <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
-              <a href="#workspace" class="btn btn-lime">
+              <a href="#workspace" class="btn btn-lime btn-md">
                 <span>Open Project Workspace</span>
                 <span class="mono" aria-hidden="true">→</span>
               </a>
-              <a href="#my-events" class="btn btn-secondary">
+              <a href="#my-events" class="btn btn-secondary btn-md">
                 <span>3D Event Wheel</span>
               </a>
             </div>
@@ -1251,8 +1256,8 @@
     </div>
 
     <div style="display: flex; gap: 10px;">
-      <a href="index.html" class="btn btn-secondary btn-sm" style="flex: 1;">Sign Out</a>
-      <button type="button" class="btn btn-lime btn-sm" onclick="showCampusToast('Student verification key renewed.', 'success');" style="flex: 1;">Renew Pass</button>
+      <a href="index.html" class="btn btn-secondary btn-md" style="flex: 1;">Sign Out</a>
+      <button type="button" class="btn btn-lime btn-md" onclick="showCampusToast('Student verification key renewed.', 'success');" style="flex: 1;">Renew Pass</button>
     </div>
   </div>
 
