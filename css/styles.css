@@ -240,7 +240,7 @@ body {
   z-index: 1;
   transform-style: preserve-3d;
   transform: rotateX(12deg) rotateY(-16deg) rotateZ(2.5deg);
-  opacity: 0.85;
+  opacity: 1;
   will-change: transform;
   transition: transform 200ms ease-out;
   flex-shrink: 0;
@@ -257,25 +257,45 @@ body {
 .overview-slab-item-purple {
   width: 190px;
   height: 65px;
-  background: rgba(118, 101, 255, 0.16);
-  border: 1px solid rgba(118, 101, 255, 0.4);
-  border-left: 4px solid var(--purple);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  background: #7665ff;
+  border-left: 4px solid rgba(255, 255, 255, 0.9);
+  filter: drop-shadow(4px 5px 0px #4332bf);
+  box-shadow: 0 10px 24px rgba(118, 101, 255, 0.22);
   top: 0;
   left: 0;
   transform: translate3d(0, 0, 0);
 }
 
+.overview-slab-item-purple::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-bottom: 5px solid #3d2cb0;
+  border-right: 5px solid #3d2cb0;
+  clip-path: inherit;
+  pointer-events: none;
+}
+
 .overview-slab-item-black {
   width: 210px;
   height: 70px;
-  background: rgba(16, 17, 22, 0.08);
-  border: 1px solid rgba(16, 17, 22, 0.18);
-  border-left: 4px solid var(--lime-dark);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+  background: #111111;
+  border-left: 4px solid var(--lime);
+  filter: drop-shadow(4px 5px 0px #040406);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.35);
   top: 18px;
   left: 24px;
   transform: translate3d(0, 0, 20px);
+}
+
+.overview-slab-item-black::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-bottom: 5px solid #000000;
+  border-right: 5px solid #000000;
+  clip-path: inherit;
+  pointer-events: none;
 }
 
 @media (max-width: 860px) {
@@ -543,10 +563,17 @@ h4 {
   border: 1px solid rgba(168, 230, 46, 0.4);
 }
 
-.band-black .slash-badge-lime {
+/* Current round badge ("Round 02 // Current Position") on dark surfaces */
+.band-black .slash-badge-lime,
+.auth-split-left-band .slash-badge-lime,
+.rounds-summary-grid .slash-badge-lime,
+.hero-stage-3d-wrapper .slash-badge-lime,
+.stage-active-centerpiece .slash-badge-lime,
+.track-segment-2 .slash-badge-lime {
   background: rgba(168, 230, 46, 0.15);
-  color: var(--lime);
-  border: 1px solid rgba(168, 230, 46, 0.3);
+  color: #a8e62e;
+  border: 1px solid #a8e62e;
+  font-weight: 600;
 }
 
 .slash-badge-black {
@@ -561,11 +588,19 @@ h4 {
   border: 1px solid rgba(118, 101, 255, 0.4);
 }
 
-.rounds-summary-grid .slash-badge-lime,
-.hero-stage-3d-wrapper .slash-badge-lime {
-  background: rgba(168, 230, 46, 0.15);
-  color: var(--lime);
-  border: 1px solid rgba(168, 230, 46, 0.3);
+/* Purple-tinted badges ("Round 03", "Upcoming") on dark surfaces */
+.band-black .slash-badge-purple,
+.auth-split-left-band .slash-badge-purple,
+.rounds-summary-grid .slash-badge-purple,
+.hero-stage-3d-wrapper .slash-badge-purple,
+.track-stage-block .slash-badge-purple,
+.track-segment-3 .slash-badge-purple,
+.carousel-card-3d .slash-badge-purple,
+.carousel-card-face .slash-badge-purple {
+  background: rgba(118, 101, 255, 0.18);
+  color: #b8b0ff;
+  border: 1px solid rgba(184, 176, 255, 0.45);
+  font-weight: 600;
 }
 
 .slash-badge-ghost {
@@ -574,8 +609,15 @@ h4 {
   color: var(--text-secondary);
 }
 
-.band-black .slash-badge-ghost {
-  border-color: var(--black-border);
+/* Neutral ghost badges, labels and "Progression Track" on dark surfaces */
+.band-black .slash-badge-ghost,
+.auth-split-left-band .slash-badge-ghost,
+.hero-slab .slash-badge-ghost,
+.track-stage-block .slash-badge-ghost,
+.carousel-card-face .slash-badge-ghost,
+.overview-track-band .slash-badge-ghost {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.35);
   color: #ededed;
 }
 
@@ -1583,10 +1625,6 @@ h4 {
   .carousel-card-inner {
     transform: none !important;
     transition: none !important;
-  }
-
-  .overview-3d-slab-pair {
-    display: none !important;
   }
 
   .campus-toast {
