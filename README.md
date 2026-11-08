@@ -3,7 +3,7 @@
 Collegiate hackathon arena and student engineering workspace designed for CampusCode ReBuild '26 Round 2. Built around an authentic editorial identity with ~15° slash geometry, a live 3D CSS slab stage, a horizontal 3-round timeline progression track, and an interactive 3D cylindrical carousel.
 
 ## Pages
-- `index.html`: National arena homepage with 3D slab stage, tracks, showcase, and execution flow.
+- `index.html`: Student hackathon arena homepage with 3D slab stage, tracks, showcase, and execution flow.
 - `dashboard.html`: Student workspace with overview metrics, 3D event wheel, challenge directory, workspace milestones, HackMate matching, credentials, and real-time activity center.
 - `login.html`: Split-screen student authentication with live terminal telemetry and inline validation.
 - `register.html`: 3-step student onboarding wizard with strength evaluation and honor code agreement.
